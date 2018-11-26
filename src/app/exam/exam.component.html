@@ -1,0 +1,103 @@
+<div>
+  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <div class="container">
+    <div class="header">
+      <h1 class="header-title">Exam Lists</h1>
+      <button mdbBtn type="button" color="primary" class="waves-light header-button" size="md" (click)="create_exam.show()" mdbWavesEffect>Add Exam</button>
+    </div>
+
+    <table class="table" small="true">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Items</th>
+          <th>Offline</th>
+          <th>Scanned</th>
+          <th style="width: 30%;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exam of exams | async">
+       	  <td>{{ exam.name }}</td>
+          <td>{{ exam.items }}</td>
+          <td>{{ exam.offline }}</td>
+          <td>{{ exam.scanned }}</td>
+          <td>
+            <button type="button" class="btn btn-primary btn-sm" routerLink="/users/{{user_id}}/exams/{{ exam.id }}">View</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="editExam(exam)" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="examDelete(exam.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div mdbModal #create_exam="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right" aria-label="Close" (click)="closeExamModal()">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title w-100" id="myModalLabel">{{ createExamModalTitle }}</h4>
+        </div>
+        <form [formGroup]="examForm" (ngSubmit)="examFormOnSubmit()">
+          <input type="hidden" formControlName="exam_id">
+          <div class="modal-body">
+            <div class="md-form">
+              <input mdbInputDirective type="text" id="exam_name" class="form-control" formControlName="name" [mdbValidate]="false">
+              <label for="exam_name" class="">Exam Name</label>
+            </div>
+            <div class="md-form">
+              <input mdbInputDirective type="text" id="exam_name" class="form-control" formControlName="date" placeholder="YYYY-MM-DD hh:mm:ss" [mdbValidate]="false">
+              <label for="exam_name" class="">Exam Date</label>
+            </div>
+            <div>
+              <div class="header">
+                <h5 class="header-title">Class</h5>
+                <button mdbBtn type="button" color="primary" class="waves-light header-button" size="sm" (click)="create_class.show()" mdbWavesEffect>Add Class</button>
+              </div>
+              <div formArrayName="classes">
+                <div *ngFor="let ccc of classes.controls; let i=index ">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input  type="checkbox" class="custom-control-input" [id]="classForm[i].html_id" [formControlName]="i">
+                    <label class="custom-control-label" [for]="classForm[i].html_id">{{ classForm[i].class_name }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" mdbBtn color="primary" class="relative waves-light" (click)="create_exam.hide()" mdbWavesEffect>Save changes</button>
+            <button type="button" mdbBtn color="blue-grey" class="waves-light" aria-label="Close" (click)="closeExamModal()" mdbWavesEffect>Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div mdbModal #create_class="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right" aria-label="Close" (click)="create_class.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+          <p class="heading lead mb-0">Add New Class</p>
+        </div>
+        <form [formGroup]="classFormHtml" (ngSubmit)="classFormOnSubmit()">
+          <div class="modal-body">
+            <div class="md-form">
+              <input mdbInputDirective type="text" id="class_name" class="form-control" formControlName="name" [mdbValidate]="false">
+              <label for="class_name" class="">Enter Class Name</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>Save changes</button>
+            <button type="button" mdbBtn color="blue-grey" class="waves-light" aria-label="Close" (click)="create_class.hide()" mdbWavesEffect>Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

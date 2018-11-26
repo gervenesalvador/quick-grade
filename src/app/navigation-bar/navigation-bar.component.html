@@ -1,0 +1,31 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark info-color">
+  <mdb-navbar-brand>
+    <a href="#" class="navbar-brand">Quick Grade</a>
+  </mdb-navbar-brand>
+  <links>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/users/{{user_id}}/classes">Class</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/users/{{user_id}}/exams">Exam</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/users/{{user_id}}/students">Students</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/users/{{user_id}}/template">Generate Template</a>
+      </li>
+    </ul>
+ <!--    <div class="dropdown" mdbDropdown *ngIf="user">
+      <button mdbDropdownToggle mdbBtn color="cyan" size="sm" class="dropdown-toggle waves-light" type="button"
+        mdbWavesEffect>
+        {{ user.email }}
+      </button>
+
+      <div class="dropdown-menu dropdown-primary">
+        <button class="dropdown-item" routerLink="/login">Logout</button>
+      </div>
+    </div> -->
+  </links>
+</mdb-navbar>

@@ -1,0 +1,61 @@
+<div>
+  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <!-- <div class="">
+
+  </div> -->
+  <button type="button" class="btn btn-danger btn-block" (click)="generate()">Download PDF</button>
+  <div class="clearfix info-color">
+    
+    <div id="paper_container" #paper_container>
+      <div class="btn-cyan choices-types">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="20" name="exam_items" ng-model="exam_items" (click)='change_exam(0)' mdbInputDirective checked>
+          <label class="custom-control-label" for="20">20</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="30" name="exam_items" ng-model="exam_items" (click)='change_exam(1)' mdbInputDirective>
+          <label class="custom-control-label" for="30">30</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="50" name="exam_items" ng-model="exam_items" (click)='change_exam(2)' mdbInputDirective>
+          <label class="custom-control-label" for="50">50</label>
+        </div>
+      </div>
+      <div id="paper" #paper>
+        <div style="position: relative;width: 700px;display: block;margin: auto;">
+          <img [src]="image" alt="Quick Grade Logo" style="width: 100%;">
+          <div *ngFor="let kk of aa" class="container type_container_draggable" dragula="COPYABLE" [style.top]="kk.top" [style.left]="kk.left"></div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="right-sidebar">
+      
+      <div dragula="COPYABLE" id="type_container">
+        <div>
+          <img src="/assets/images/bubble.jpg" alt="Bubble" class="type_item">
+        </div>
+        <div>
+          <img src="/assets/images/text.jpg" alt="Text" class="type_item">
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <!-- <div class="wrapper" id="kk" #kk>
+    <div class="container" dragula="DRAGULA_FACTS">
+      <div>You can move these elements between these two containers</div>
+      <div>Moving them anywhere else isn't quite possible</div>
+      <div>There's also the possibility of moving elements around in the same container, changing their position</div>
+    </div>
+    <div class="container" dragula="DRAGULA_FACTS">
+      <div>This is the default use case. You only need to specify the containers you want to use</div>
+      <div>More interactive use cases lie ahead</div>
+      <div>Make sure to check out the <a href="https://github.com/bevacqua/dragula#readme">documentation on GitHub!</a></div>
+      <div>
+        <img src="/assets/images/logo.png" alt="Quick Grade Logo">
+      </div>
+    </div>
+  </div> -->
+  </div>

@@ -1,0 +1,66 @@
+/* in-flight clone */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}
+.right-sidebar {
+  width: 200px; height: 100%; float: left;
+}
+.type_item {
+  width: 115px; 
+  height: 224px; 
+  display: block;
+  margin: auto
+}
+#img_container {
+  width: 700px;
+  display: block;
+  margin: auto;
+}
+#paper_container {
+  background-color: #525659; 
+  width: calc(100% - 200px); 
+  height: 100%; 
+  padding: 3em 0; 
+  float: left;
+  position: relative;
+}
+.type_container_draggable {
+  width: 115px;
+  height: 224px;
+  position: absolute;
+  background-color: aqua;
+  padding: 0;
+}
+.choices-types {
+  position: absolute;
+  text-align: center;
+  height: 50px;
+  width: 230px;
+  top: 0;
+}
+.choices-types .custom-control-inline {
+  margin-top: 14px;
+}

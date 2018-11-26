@@ -1,0 +1,5 @@
+.card {width: 27%; margin-top: 1em;}
+.card-text { position: relative;height: 50px;}
+.score {position: absolute;top: 0px;left: 15px;font-size: 1.5em;font-weight: bolder;font-size: 1.8em;}
+.diagonal-line {width: 90px;height: 44px;border-bottom: 4px solid white;-webkit-transform: translateY(20px) translateX(5px) rotate(-25deg);position: absolute;top: -29px;left: -6px;border-radius: 5px;}
+.items {position: absolute;right: 15px;bottom: -3px;font-size: 1.5em;}

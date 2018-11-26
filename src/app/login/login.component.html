@@ -1,0 +1,21 @@
+<div class="login-bg w-100 h-100">
+  <div id="login" class="m-auto">
+    <div class="mb-4 text-center">
+      <img src="assets/images/logo.png" alt="Quick Grade Logo">
+    </div>
+    <h1 class="mb-5 text-center font-weight-bold">Quick Grade</h1>
+<div #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  {{ alert_message }}
+</div>
+    <div class="form">
+      <form [formGroup]="userForm" (ngSubmit)="login()">
+        <input type="email" class="form-control mb-3" formControlName="email" [mdbValidate]="false" mdbInputDirective placeholder="Email">
+        <input type="password" class="form-control mb-3" formControlName="password" [mdbValidate]="false" mdbInputDirective placeholder="Password">
+        <button type="submit" class="btn btn-info btn-block mb-4" type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div>
+  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <div class="container" *ngIf="student | async; let data;">
+    <h1 class="mt-3 font-weight-bold">{{ data.firstName }} {{ data.lastName }}</h1>
+    <h5 class="mb-3">Student ID: {{ data.customID }}</h5>
+    
+    <h5 class="mb-0 font-weight-bold">Papers</h5>
+    <table class="table" small="true">
+      <thead>
+        <th>Name</th>
+        <th>Score</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let paper of papers | async">
+          <td>{{ paper.examName }}</td>
+          <td>Score {{ paper.score+'/'+paper.items }}</td>
+          <td>
+            <button type="button" class="btn btn-primary btn-sm" routerLink="/users/{{user_id}}/papers/{{paper.id}}">View</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
