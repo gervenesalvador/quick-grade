@@ -8,16 +8,15 @@ import { Router, CanActivate } from '@angular/router';
 export class AuthGuardService implements CanActivate {
 
   constructor(
-  	// private router: Router, private authService: AuthService
+  	private router: Router, private authService: AuthService
   	) { }
 
   canActivate() {
-  	console.log("asdfa");
-    // if ( this.authService.isLoggedIn() ) {
+    if ( this.authService.isLoggedIn() ) {
         return true;
-    // }
+    }
 
-    // this.router.navigate(['/']);
-    // return false;
+    this.router.navigate(['/']);
+    return false;
   }
 }

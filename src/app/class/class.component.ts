@@ -7,7 +7,7 @@ import { User } from '../model/user';
 import { Class } from '../model/class';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ModalDirective } from 'angular-bootstrap-md';
-// import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-class',
@@ -18,9 +18,10 @@ export class ClassComponent implements OnInit {
   // user: Object;
   @ViewChild('create_class') createClass: ModalDirective;
   @ViewChild('delete_class') delete_class: ModalDirective;
-  user_id: string;
+  // user_id: string;
   userDoc: AngularFirestoreDocument<User>;
   user: Observable<User>;
+  userAuth: Object;
   classCollection: AngularFirestoreCollection<Class>;
   classes: Observable<Class[]>;
   
@@ -37,25 +38,17 @@ export class ClassComponent implements OnInit {
   constructor(
     private afs: AngularFirestore,
     private route: ActivatedRoute,
-    // private authService: AuthService,
+    private authService: AuthService,
   ) {
-    console.log("test");
-    // this.user = JSON.parse(localStorage.getItem('qg_user'));
-    // console.log(this.user);
-    // this.user = this.authService.getUser();
-    // console.log(this.user);
-    this.user_id = this.route.snapshot.paramMap.get('id');
+    this.userAuth = this.authService.getUser();
+    // this.user_id = this.route.snapshot.paramMap.get('id');
     this.deletingClassName = '';
     this.create_modal_title = 'Create Class';
   }
 
   ngOnInit() { 
-    // console.log(this.user);
-    // this.usersCollection = this.afs.collection<User>('Users');
-    this.userDoc = this.afs.collection<User>('Users').doc(this.user_id);
-    // this.userDoc = this.afs.collection<User>('Users').doc(this.user['uid']);
+    this.userDoc = this.afs.collection<User>('Users').doc(this.userAuth['id']);
     this.user = this.userDoc.valueChanges();
-    // let userDoc = this.afs.collection('Users').doc(this.user['id']);
     this.classCollection = this.userDoc.collection('Class');
     this.classes = this.classCollection.snapshotChanges()
       .map((arr) => {

@@ -11,8 +11,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppRoutingModule } from './app-routing.module';
 
-// import { AuthService } from './services/auth.service';
-// import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
@@ -29,6 +29,7 @@ import { PaperDetailComponent } from './paper-detail/paper-detail.component';
 import { TemplateComponent } from './template/template.component';
 // import { ClassDetailExamComponent } from './class-detail/class-detail-exam/class-detail-exam.component';
 import { DragulaModule } from 'ng2-dragula';
+// import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { DragulaModule } from 'ng2-dragula';
     PaperComponent,
     PaperDetailComponent,
     TemplateComponent,
+    // ExamEditComponent,
     // ClassDetailExamComponent,
   ],
   imports: [
@@ -60,7 +62,7 @@ import { DragulaModule } from 'ng2-dragula';
     AppRoutingModule,
     DragulaModule.forRoot(),
   ],
-  providers: [],
+  providers: [AuthService, AuthGuardService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
 })

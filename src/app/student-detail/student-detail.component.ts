@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '../model/user';
 import { Student } from '../model/student';
 import { Paper } from '../model/paper';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -13,12 +14,13 @@ import { Paper } from '../model/paper';
   styleUrls: ['./student-detail.component.css']
 })
 export class StudentDetailComponent implements OnInit {
-  user_id: string;
-  student_id: string;
-  usersCollection: AngularFirestoreCollection<User>;
+  // user_id: string;
+  // usersCollection: AngularFirestoreCollection<User>;
   userDoc: AngularFirestoreDocument<User>;
   user: Observable<User>;
+  userAuth: Object;
 
+  student_id: string;
   studentCollection: AngularFirestoreCollection<Student>;
   studentDoc: AngularFirestoreDocument<Student>;
   student: Observable<Student>;
@@ -30,14 +32,17 @@ export class StudentDetailComponent implements OnInit {
   constructor(
     private afs: AngularFirestore,
     private route: ActivatedRoute,
+    private authService: AuthService,
   ) { 
-    this.user_id = this.route.snapshot.paramMap.get('id');
+    this.userAuth = this.authService.getUser();
+    // this.user_id = this.route.snapshot.paramMap.get('id');
     this.student_id = this.route.snapshot.paramMap.get('studentID');
   }
 
   ngOnInit() {
-    this.usersCollection = this.afs.collection<User>('Users');
-    this.userDoc = this.usersCollection.doc(this.user_id);
+    // this.usersCollection = this.afs.collection<User>('Users');
+    // this.userDoc = this.usersCollection.doc(this.user_id);
+    this.userDoc = this.afs.collection<User>('Users').doc(this.userAuth['id']);
     this.user = this.userDoc.valueChanges();
 
     this.studentCollection = this.userDoc.collection('Student');

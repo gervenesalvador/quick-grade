@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore'; //AngularFirestoreCollection
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { Exam } from '../model/exam';
 import { Student } from '../model/student';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
+import { AuthService } from '../services/auth.service';
 
 @Component({
 	selector: 'app-class-detail',
@@ -18,11 +19,12 @@ import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 export class ClassDetailComponent implements OnInit {
 	@ViewChild('modal_remove_exam') modal_remove_exam: ModalDirective;
 	@ViewChild('modal_remove_student') modal_remove_student: ModalDirective;
-	user_id: string;
+	// user_id: string;
 	class_id: string;
-	usersCollection: AngularFirestoreCollection<User>;
+	// usersCollection: AngularFirestoreCollection<User>;
 	userDoc: AngularFirestoreDocument<User>;
 	user: Observable<User>;
+	userAuth: Object;
 	
 	classDoc: AngularFirestoreDocument<Class>;
 	class: Observable<Class>;
@@ -37,14 +39,16 @@ export class ClassDetailComponent implements OnInit {
 	constructor(
 		private afs: AngularFirestore,
 		private route: ActivatedRoute,
+		private authService: AuthService,
 	) {
-		this.user_id = this.route.snapshot.paramMap.get('id');
+		this.userAuth = this.authService.getUser();
+		// this.user_id = this.route.snapshot.paramMap.get('id');
 		this.class_id = this.route.snapshot.paramMap.get('classID');
 	}
 
 	ngOnInit() {
-		this.usersCollection = this.afs.collection<User>('Users');
-		this.userDoc = this.usersCollection.doc(this.user_id);
+		// this.usersCollection = this.afs.collection<User>('Users');
+		this.userDoc = this.afs.collection<User>('Users').doc(this.userAuth['id']);
 		this.user = this.userDoc.valueChanges();
 
 		this.classDoc = this.userDoc.collection('Class').doc(this.class_id);

@@ -1,5 +1,5 @@
 <div>
-	<app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+	<app-navigation-bar></app-navigation-bar>
 	<div class="container">
 		<div class="header">
 			<h1 class="header-title">Classes List</h1>
@@ -16,7 +16,7 @@
 				<tr *ngFor="let class of classes | async">
 					<td>{{ class.name }}</td>
 					<td>
-						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/users/{{user_id}}/classes/{{class.id}}">View</button>
+						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/classes/{{class.id}}">View</button>
 						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect (click)="showClassFormModal(class.id,class.name)"><mdb-icon icon="pencil" class="ml-1"></mdb-icon></button>
 						<button mdbBtn type="button" color="danger" class="waves-light" size="sm" mdbWavesEffect (click)="deleteConfirmation(class.id,class.name)"><mdb-icon icon="trash" class="ml-1"></mdb-icon></button>
 					</td>
@@ -25,7 +25,7 @@
 		</table>
 	</div>
 
-	<!-- <div mdbModal #create_class="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+	<div mdbModal #create_class="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -35,7 +35,7 @@
 					<p class="heading lead mb-0">{{ create_modal_title }}</p>
 				</div>
 				<form [formGroup]="classForm" (ngSubmit)="classFormOnSubmit()">
-					<input mdbInputDirective type="hidden" id="class_name" class="form-control" formControlName="class_id">
+					<input mdbInputDirective type="hidden" id="class_id" class="form-control" formControlName="class_id">
 					<div class="modal-body">
 						<div class="md-form">
 							<input mdbInputDirective type="text" id="class_name" class="form-control" formControlName="name" [mdbValidate]="false">
@@ -69,5 +69,5 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 </div>

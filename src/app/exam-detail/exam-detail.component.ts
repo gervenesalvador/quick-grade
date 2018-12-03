@@ -8,6 +8,7 @@ import { Class } from '../model/class';
 import { Exam } from '../model/exam';
 import { Paper } from '../model/paper';
 import { ModalDirective } from 'angular-bootstrap-md';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-exam-detail',
@@ -16,16 +17,18 @@ import { ModalDirective } from 'angular-bootstrap-md';
 })
 export class ExamDetailComponent implements OnInit {
   @ViewChild('delete_paper_modal') delete_paper_modal: ModalDirective;
-  user_id: string;
-  exam_id: string;
-  usersCollection: AngularFirestoreCollection<User>;
+  // user_id: string;
+  
+  // usersCollection: AngularFirestoreCollection<User>;
   userDoc: AngularFirestoreDocument<User>;
   user: Observable<User>;
+  userAuth: Object;
 
   // divider: any = 0;
   passed: number = 0;
   failed: number = 0;
 
+  exam_id: string;
   examCollection: AngularFirestoreCollection<Exam>;
   examDoc: AngularFirestoreDocument<any>;
   exam: Observable<any>;
@@ -52,14 +55,17 @@ export class ExamDetailComponent implements OnInit {
   constructor(
     private afs: AngularFirestore,
     private route: ActivatedRoute,
+    private authService: AuthService,
   ) {
-    this.user_id = this.route.snapshot.paramMap.get('id');
+    this.userAuth = this.authService.getUser();
+    // this.user_id = this.route.snapshot.paramMap.get('id');
     this.exam_id = this.route.snapshot.paramMap.get('examID');
   }
 
   ngOnInit() {
-    this.usersCollection = this.afs.collection<User>('Users');
-    this.userDoc = this.usersCollection.doc(this.user_id);
+    // this.usersCollection = this.afs.collection<User>('Users');
+    // this.userDoc = this.usersCollection.doc(this.user_id);
+    this.userDoc = this.afs.collection<User>('Users').doc(this.userAuth['id']);
     this.user = this.userDoc.valueChanges();
 
     this.examCollection = this.userDoc.collection('Exam');

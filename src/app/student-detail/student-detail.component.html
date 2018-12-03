@@ -1,5 +1,5 @@
 <div>
-  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <app-navigation-bar></app-navigation-bar>
   <div class="container" *ngIf="student | async; let data;">
     <h1 class="mt-3 font-weight-bold">{{ data.firstName }} {{ data.lastName }}</h1>
     <h5 class="mb-3">Student ID: {{ data.customID }}</h5>
@@ -16,7 +16,7 @@
           <td>{{ paper.examName }}</td>
           <td>Score {{ paper.score+'/'+paper.items }}</td>
           <td>
-            <button type="button" class="btn btn-primary btn-sm" routerLink="/users/{{user_id}}/papers/{{paper.id}}">View</button>
+            <button type="button" class="btn btn-primary btn-sm" routerLink="/papers/{{paper.id}}">View</button>
           </td>
         </tr>
       </tbody>

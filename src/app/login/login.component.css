@@ -1,3 +1,5 @@
 .login-bg {background-color: #2d2d2d;min-height: 100vh;}
 #login {width: 400px;padding-top: 100px;color: #fff;}
 #login img {width: 100px;}
+.text-primary { color: #33b5e5 !important; }
+.text-hover { cursor: pointer; }

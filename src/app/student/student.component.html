@@ -1,5 +1,5 @@
 <div>
-  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <app-navigation-bar></app-navigation-bar>
   <div class="container">
     <div class="header">
       <h1 class="header-title">Students List</h1>
@@ -17,11 +17,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let student of students | async">
-          <td>{{ student.id }}</td>
+          <td>{{ student.customID }}</td>
         	<td>{{ student.firstName }}</td>
         	<td>{{ student.lastName }}</td>
           <td>
-            <button type="button" class="btn btn-primary btn-sm" routerLink="/users/{{user_id}}/students/{{ student.id }}">View</button>
+            <button type="button" class="btn btn-primary btn-sm" routerLink="/students/{{ student.id }}">View</button>
             <button type="button" class="btn btn-primary btn-sm" (click)="editStudent(student)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
             <button type="button" class="btn btn-danger btn-sm" (click)="deleteStudentConfimation(student.id, student.firstName+' '+student.lastName)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td>

@@ -1,5 +1,5 @@
 <div class="data" *ngIf="class | async; let class_data;">
-	<app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+	<app-navigation-bar></app-navigation-bar>
 	<div class="container">
 		<div class="header mt-3 mb-3">
 			<h1 class="font-weight-bold">Class / {{ class_data.name }}</h1>
@@ -21,7 +21,7 @@
 					<td>{{ student_data.firstName }}</td>
 					<th>{{ student_data.lastName }}</th>
 					<td>
-						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/users/{{user_id}}/students/{{ student_data.id }}">View</button>
+						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/students/{{ student_data.id }}">View</button>
 						<button mdbBtn type="button" color="danger" class="waves-light" size="sm" mdbWavesEffect (click)="showRemoveStudentConfirmation(student_data.id)"><mdb-icon icon="trash" class="ml-1"></mdb-icon></button>
 					</td>
 				</tr>
@@ -64,7 +64,7 @@
 					<td>{{ exam_data.scanned }}</td>
 					<td>{{ exam_data.date }}</td>
 					<td>
-						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/users/{{user_id}}/exams/{{ exam_data.id }}">View</button>
+						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/exams/{{ exam_data.id }}">View</button>
 						<button mdbBtn type="button" color="danger" class="waves-light" size="sm" mdbWavesEffect (click)="showRemoveExamConfirmation(exam_data.id)"><mdb-icon icon="trash" class="ml-1"></mdb-icon></button>
 					</td>
 				</tr>

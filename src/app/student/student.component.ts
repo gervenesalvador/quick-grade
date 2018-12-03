@@ -9,6 +9,7 @@ import { Exam } from '../model/exam';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-student',
@@ -19,10 +20,12 @@ export class StudentComponent implements OnInit {
   @ViewChild('delete_exam') delete_exam: ModalDirective;
   @ViewChild('create_student_modal') create_student_modal: ModalDirective;
   @ViewChild('create_class') create_class: ModalDirective;
-  user_id: string;
-  usersCollection: AngularFirestoreCollection<User>;
+  // user_id: string;
+  // usersCollection: AngularFirestoreCollection<User>;
   userDoc: AngularFirestoreDocument<User>;
   user: Observable<User>;
+  userAuth: Object;
+
   studentCollection: AngularFirestoreCollection<Student>;
   students: Observable<Student[]>;
   
@@ -54,8 +57,10 @@ export class StudentComponent implements OnInit {
     private afs: AngularFirestore,
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private authService: AuthService,
   ) { 
-    this.user_id = this.route.snapshot.paramMap.get('id');
+    this.userAuth = this.authService.getUser();
+    // this.user_id = this.route.snapshot.paramMap.get('id');
     this.userModalTitle = 'Add New Student';
   }
 
@@ -68,8 +73,9 @@ export class StudentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usersCollection = this.afs.collection<User>('Users');
-    this.userDoc = this.usersCollection.doc(this.user_id);
+    // this.usersCollection = this.afs.collection<User>('Users');
+    // this.userDoc = this.usersCollection.doc(this.user_id);
+    this.userDoc = this.afs.collection<User>('Users').doc(this.userAuth['id']);
     this.user = this.userDoc.valueChanges();
 
     this.studentCollection = this.userDoc.collection('Student');

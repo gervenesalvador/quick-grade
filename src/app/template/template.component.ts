@@ -7,6 +7,7 @@ import { User } from '../model/user';
 import * as jspdf from 'jspdf'; 
 import html2canvas from 'html2canvas'; 
 import { DragulaService } from 'ng2-dragula';
+// import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-template',
@@ -18,30 +19,19 @@ export class TemplateComponent implements OnInit {
   list: Array<any> = [];
   aa: any;
   image: string;
+  // subs = new Subscription();
 
-  user_id: string;
+  // user_id: string;
   usersCollection: AngularFirestoreCollection<User>;
   userDoc: AngularFirestoreDocument<User>;
   user: Observable<User>;
   constructor(private route: ActivatedRoute, private dragulaService: DragulaService) { 
-    this.user_id = this.route.snapshot.paramMap.get('id');
-     dragulaService.createGroup('COPYABLE', {
+    // this.user_id = this.route.snapshot.paramMap.get('id');
+    dragulaService.createGroup('COPYABLE', {
       copy: (el, source) => {
         return source.id === 'type_container';
       },
       accepts: (el, target, source, sibling) => {
-        // To avoid dragging from right to type_container container
-        // console.log('1');
-        // console.log(el);
-        // console.log('2');
-        // console.log(target.children);
-        // console.log('3');
-        // console.log(source);
-        // console.log('4');
-        // console.log(sibling);
-        // if (target.children.length == 2) {
-
-        // }
         return (target.id !== 'type_container') && (target.children.length == 0);
       }
     });
@@ -51,34 +41,33 @@ export class TemplateComponent implements OnInit {
     this.list.push({
       id: 20,
       keys: [
-        { top: "473px", left: "294px"},// { top: "520px", left: "557px"},
-        { top: "473px", left: "426px"}
+        { id: 1, top: "473px", left: "294px"},// { top: "520px", left: "557px"},
+        { id: 2, top: "473px", left: "426px"}
       ]
     });
 
     this.list.push({
       id: 30,
       keys: [
-        { top: "623px", left: "208px" },
-        { top: "378px", left: "393px" },
-        { top: "623px", left: "393px" },
+        { id: 1, top: "623px", left: "208px" },
+        { id: 2, top: "378px", left: "393px" },
+        { id: 3, top: "623px", left: "393px" },
       ]
     });
 
     this.list.push({
       id: 50,
       keys: [
-        { top: "629px", left: "162px" },
-        { top: "383px", left: "292px" },
-        { top: "629px", left: "292px" },
-        { top: "383px", left: "424px" },
-        { top: "629px", left: "424px" },
+        { id: 1, top: "629px", left: "162px" },
+        { id: 2, top: "383px", left: "292px" },
+        { id: 3, top: "629px", left: "292px" },
+        { id: 4, top: "383px", left: "424px" },
+        { id: 5, top: "629px", left: "424px" },
       ]
     });
 
     this.aa = this.list[0].keys;
     this.image = "/assets/images/"+this.list[0].id+".jpg" ;
-    console.log(this.aa);
   }
 
   generate(): void {
@@ -113,5 +102,11 @@ export class TemplateComponent implements OnInit {
     // console.log(this.list[item]);
     this.aa = this.list[item].keys;
     this.image = "/assets/images/"+this.list[item].id+".jpg" ;
+  }
+
+  deleteImage(id) {
+    let container = document.getElementById('item-'+id);
+    container.innerHTML = '';
+    // console.log(id);
   }
 }

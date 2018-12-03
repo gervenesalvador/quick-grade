@@ -1,5 +1,5 @@
 <div class="data" *ngIf="exam | async; let exam_data;">
-  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <app-navigation-bar></app-navigation-bar>
   <div class="container">
     <div class="row">
       <div class="col">
@@ -34,7 +34,7 @@
           <td>{{ class_data.name }}</td>
           <td>Enrolled: {{ class_data.students.length }}</td>
           <td>
-            <button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/users/{{user_id}}/classes/{{ class_data.id }}">View</button>
+            <button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/classes/{{ class_data.id }}">View</button>
           </td>
         </tr>
       </tbody>
@@ -43,7 +43,7 @@
     <div class="row" *ngIf="exam_data.papersDatas | async; let papers">
       <div class="col-3 mb-3" *ngFor="let paper of papers">
         <mdb-card *ngIf="paper.studentData | async; let student">
-          <mdb-card-img [src]="paper.imgUrl" alt="Paper Image" routerLink="/users/{{user_id}}/papers/{{ paper.id }}"></mdb-card-img>
+          <mdb-card-img [src]="paper.imgUrl" alt="Paper Image" routerLink="/papers/{{ paper.id }}"></mdb-card-img>
           <mdb-card-body>
             <mdb-card-title>
               <h4 class="mb-0">{{ student.firstName }} {{ student.lastName }}</h4>

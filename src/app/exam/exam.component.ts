@@ -7,6 +7,7 @@ import { User } from '../model/user';
 import { Exam } from '../model/exam';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { ModalDirective } from 'angular-bootstrap-md';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-exam',
@@ -16,10 +17,12 @@ import { ModalDirective } from 'angular-bootstrap-md';
 export class ExamComponent implements OnInit {
   @ViewChild('create_exam') create_exam : ModalDirective;
   @ViewChild('create_class') create_class: ModalDirective;
-  user_id: string;
-  usersCollection: AngularFirestoreCollection<User>;
+  // user_id: string;
+  // usersCollection: AngularFirestoreCollection<User>;
   userDoc: AngularFirestoreDocument<User>;
   user: Observable<User>;
+  userAuth: Object;
+
   // classCollection: AngularFirestoreCollection<Class>;
   // classes: Observable<Class[]>;
   ExamCollection: AngularFirestoreCollection<any>;
@@ -45,9 +48,11 @@ export class ExamComponent implements OnInit {
   constructor(
     private afs: AngularFirestore,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService,
   ) {
-    this.user_id = this.route.snapshot.paramMap.get('id');
+    this.userAuth = this.authService.getUser();
+    // this.user_id = this.route.snapshot.paramMap.get('id');
     this.createExamModalTitle = "Add Exam";
   }
 
@@ -60,8 +65,9 @@ export class ExamComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.usersCollection = this.afs.collection<User>('Users');
-    this.userDoc = this.usersCollection.doc(this.user_id);
+    // this.usersCollection = this.afs.collection<User>('Users');
+    // this.userDoc = this.usersCollection.doc(this.user_id);
+    this.userDoc = this.afs.collection<User>('Users').doc(this.userAuth['id']);
     this.user = this.userDoc.valueChanges();
 
     this.ExamCollection = this.userDoc.collection('Exam');

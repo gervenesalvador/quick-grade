@@ -13,38 +13,46 @@ export class AuthService {
   private userDetails: firebase.User = null;
 
   constructor(private _firebaseAuth: AngularFireAuth, private router: Router) {
-    console.log("asdfadf");
-    // this.user = _firebaseAuth.authState;
-    // this.user.subscribe((user) => {
-    //   if (user) {
-    //     this.userDetails = user;
-    //     console.log(this.userDetails);
-    //   } else {
-    //     this.userDetails = null;
-    //   }
-    // });
+
+    this.user = _firebaseAuth.authState;
+    this.user.subscribe((user) => {
+      if (user) {
+        this.userDetails = user;
+      } else {
+        this.userDetails = null;
+      }
+    });
   }
 
-  // signInRegular(email, password) {
-    // const credential = firebase.auth.EmailAuthProvider.credential( email, password );
-    // return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
-  // }
+  signInRegular(email, password) {
+    const credential = firebase.auth.EmailAuthProvider.credential( email, password );
+    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+  }
 
-  // isLoggedIn() {
-    // let user = localStorage.getItem('qg_user');
-    // console.log(user);
-    // if (user === null ||  typeof user === 'undefined') {
-    //   return false;
-    // }
-    // return true;
-  // }
+  signInWithGoogle() {
+    return this._firebaseAuth.auth.signInWithPopup(
+      new firebase.auth.GoogleAuthProvider()
+    )
+  }
+
+  createAccountRegular(email, password) {
+    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
+  }
+
+  isLoggedIn() {
+    let user = JSON.parse(localStorage.getItem('qg_user'));
+    if (user === null ||  typeof user === 'undefined') {
+      return false;
+    }
+    return true;
+  }
 
   getUser() {
-    // return this.userDetails;
+    return JSON.parse(localStorage.getItem('qg_user'));
   }
 
   logout() {
-    // localStorage.clear();
-    // this._firebaseAuth.auth.signOut().then((res) => this.router.navigate(['/']));
+    localStorage.clear();
+    this._firebaseAuth.auth.signOut().then((res) => this.router.navigate(['/']));
   }
 }

@@ -1,5 +1,5 @@
 <div>
-  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <app-navigation-bar></app-navigation-bar>
   <div class="container">
     <div class="header">
       <h1 class="header-title">Exam Lists</h1>
@@ -23,7 +23,7 @@
           <td>{{ exam.offline }}</td>
           <td>{{ exam.scanned }}</td>
           <td>
-            <button type="button" class="btn btn-primary btn-sm" routerLink="/users/{{user_id}}/exams/{{ exam.id }}">View</button>
+            <button type="button" class="btn btn-primary btn-sm" routerLink="/exams/{{ exam.id }}">View</button>
             <button type="button" class="btn btn-primary btn-sm" (click)="editExam(exam)" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
             <button type="button" class="btn btn-danger btn-sm" (click)="examDelete(exam.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td>

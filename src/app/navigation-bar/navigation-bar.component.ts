@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-// import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -7,15 +7,19 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./navigation-bar.component.css']
 })
 export class NavigationBarComponent implements OnInit {
-  // user: Object;
+  user: Object;
   @Input() user_id: string; 
   constructor(
-  	// private authService: AuthService
+  	private authService: AuthService
   ) {
-    // this.user = this.authService.getUser();
+    this.user = this.authService.getUser();
   }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

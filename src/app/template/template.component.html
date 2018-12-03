@@ -1,8 +1,5 @@
 <div>
-  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
-  <!-- <div class="">
-
-  </div> -->
+  <app-navigation-bar></app-navigation-bar>
   <button type="button" class="btn btn-danger btn-block" (click)="generate()">Download PDF</button>
   <div class="clearfix info-color">
     
@@ -24,7 +21,7 @@
       <div id="paper" #paper>
         <div style="position: relative;width: 700px;display: block;margin: auto;">
           <img [src]="image" alt="Quick Grade Logo" style="width: 100%;">
-          <div *ngFor="let kk of aa" class="container type_container_draggable" dragula="COPYABLE" [style.top]="kk.top" [style.left]="kk.left"></div>
+          <div *ngFor="let kk of aa" class="container type_container_draggable" [id]="'item-'+kk.id" dragula="COPYABLE" [style.top]="kk.top" [style.left]="kk.left" [data-id]="kk.id" (click)="deleteImage(kk.id)"></div>
         </div>
       </div>
       
@@ -33,29 +30,13 @@
     <div class="right-sidebar">
       
       <div dragula="COPYABLE" id="type_container">
-        <div>
+        <div style="cursor: pointer;">
           <img src="/assets/images/bubble.jpg" alt="Bubble" class="type_item">
         </div>
-        <div>
+        <div style="cursor: pointer;">
           <img src="/assets/images/text.jpg" alt="Text" class="type_item">
         </div>
       </div>
     </div>
-    
   </div>
-  <!-- <div class="wrapper" id="kk" #kk>
-    <div class="container" dragula="DRAGULA_FACTS">
-      <div>You can move these elements between these two containers</div>
-      <div>Moving them anywhere else isn't quite possible</div>
-      <div>There's also the possibility of moving elements around in the same container, changing their position</div>
-    </div>
-    <div class="container" dragula="DRAGULA_FACTS">
-      <div>This is the default use case. You only need to specify the containers you want to use</div>
-      <div>More interactive use cases lie ahead</div>
-      <div>Make sure to check out the <a href="https://github.com/bevacqua/dragula#readme">documentation on GitHub!</a></div>
-      <div>
-        <img src="/assets/images/logo.png" alt="Quick Grade Logo">
-      </div>
-    </div>
-  </div> -->
-  </div>
+</div>

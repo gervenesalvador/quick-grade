@@ -1,5 +1,5 @@
 <div *ngIf="paper | async; let paper_data;">
-  <app-navigation-bar [user_id]="user_id"></app-navigation-bar>
+  <app-navigation-bar></app-navigation-bar>
   <div class="container" *ngIf="exam | async; let exam_data;">
     <div class="row" *ngIf="student | async; let student_data;">
       <div class="col-6">
