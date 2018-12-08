@@ -29,7 +29,6 @@ export class ClassService {
       (response: any) => {
         return response.map(
           (data: any) => {
-            // console.log(data);
             let cl = data.payload.doc.data() as Class;
             return { id: data.payload.doc.id, ...cl };
           }
@@ -58,7 +57,7 @@ export class ClassService {
       (response: any) => {
         this.classGetOne.next(response);
       }
-    )
+    );
   }
 
   insert(class_data) {

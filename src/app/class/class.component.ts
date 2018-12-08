@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 // import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/operator/map';
-import { ActivatedRoute } from '@angular/router';
+// import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 // import { User } from '../model/user';
 // import { Class } from '../model/class';
@@ -32,13 +32,13 @@ export class ClassComponent implements OnInit, OnDestroy  {
   selected_class: string;
 
   classSubscription: Subscription;
-  sClassSubscription: Subscription;
+  // sClassSubscription: Subscription;
   classes: Class[];
   sClass: Class;
 
   constructor(
     // private afs: AngularFirestore,
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
     private classService: ClassService,
     // private authService: AuthService,
   ) {
@@ -97,6 +97,6 @@ export class ClassComponent implements OnInit, OnDestroy  {
 
   ngOnDestroy() {
     this.classSubscription.unsubscribe();
-    this.sClassSubscription.unsubscribe();
+    // this.sClassSubscription.unsubscribe();
   }
 }
