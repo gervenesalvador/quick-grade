@@ -1,5 +1,6 @@
 <div>
 	<app-navigation-bar></app-navigation-bar>
+	<!-- <p>{{ classes | json }}</p> -->
 	<div class="container">
 		<div class="header">
 			<h1 class="header-title">Classes List</h1>
@@ -13,7 +14,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let class of classes | async">
+				<tr *ngFor="let class of classes">
 					<td>{{ class.name }}</td>
 					<td>
 						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/classes/{{class.id}}">View</button>

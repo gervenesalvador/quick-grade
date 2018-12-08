@@ -1,70 +1,66 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+// import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+// import { Observable } from 'rxjs/Observable';
+// import 'rxjs/add/operator/map';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../model/user';
-import { Class } from '../model/class';
+import { Subscription } from 'rxjs';
+// import { User } from '../model/user';
+// import { Class } from '../model/class';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ModalDirective } from 'angular-bootstrap-md';
-import { AuthService } from '../services/auth.service';
+import { ClassService } from '../services/class.service';
+// import { AuthService } from '../services/auth.service';
+
+import { Class } from '../models/class.model';
 
 @Component({
   selector: 'app-class',
   templateUrl: './class.component.html',
   styleUrls: ['./class.component.css']
 })
-export class ClassComponent implements OnInit {
-  // user: Object;
+export class ClassComponent implements OnInit, OnDestroy  {
   @ViewChild('create_class') createClass: ModalDirective;
   @ViewChild('delete_class') delete_class: ModalDirective;
-  // user_id: string;
-  userDoc: AngularFirestoreDocument<User>;
-  user: Observable<User>;
-  userAuth: Object;
-  classCollection: AngularFirestoreCollection<Class>;
-  classes: Observable<Class[]>;
   
   classForm = new FormGroup({
     class_id: new FormControl(''),
     name: new FormControl(''),
   });
 
-  currentClassDoc: AngularFirestoreDocument<Class>;
   deletingClassName: string;
-
   create_modal_title: string;
+  selected_class: string;
+
+  classSubscription: Subscription;
+  sClassSubscription: Subscription;
+  classes: Class[];
+  sClass: Class;
 
   constructor(
-    private afs: AngularFirestore,
+    // private afs: AngularFirestore,
     private route: ActivatedRoute,
-    private authService: AuthService,
+    private classService: ClassService,
+    // private authService: AuthService,
   ) {
-    this.userAuth = this.authService.getUser();
-    // this.user_id = this.route.snapshot.paramMap.get('id');
+    this.classService.getAll();
+    // this.userAuth = this.authService.getUser();
     this.deletingClassName = '';
     this.create_modal_title = 'Create Class';
   }
 
   ngOnInit() { 
-    this.userDoc = this.afs.collection<User>('Users').doc(this.userAuth['id']);
-    this.user = this.userDoc.valueChanges();
-    this.classCollection = this.userDoc.collection('Class');
-    this.classes = this.classCollection.snapshotChanges()
-      .map((arr) => {
-        return arr.map(a => {
-          let data = a.payload.doc.data() as Class;
-          return { id: a.payload.doc.id, ...data };
-        })
-      });
+    this.classSubscription = this.classService.classGetAll.subscribe(
+      (class_data: any) => {
+        this.classes = class_data;
+      }
+    );
   }
 
   classFormOnSubmit(): void {
     if (this.classForm.value.class_id) {
-      let classDoc = this.classCollection.doc(this.classForm.value.class_id);
-      classDoc.update(this.classForm.value);
+      this.classService.update(this.classForm.value.class_id, this.classForm.value);
     } else {
-      this.classCollection.add(this.classForm.value);
+      this.classService.insert(this.classForm.value);
     }
     this.create_modal_title = "Create Class";
     this.createClass.hide();
@@ -75,18 +71,20 @@ export class ClassComponent implements OnInit {
     if (class_id) {
       this.create_modal_title = 'Update '+class_name+' Class';
       this.classForm.setValue({class_id: class_id, name: class_name});
+    } else {
+      this.classForm.reset();
     }
     this.createClass.show();
   }
 
   deleteConfirmation(class_id, class_name): void {
     this.delete_class.show();
-    this.currentClassDoc = this.classCollection.doc(class_id);
+    this.selected_class = class_id;
     this.deletingClassName = class_name;
   }
 
   deleteClass(): void {
-    this.currentClassDoc.delete();
+    this.classService.delete(this.selected_class);
     this.deletingClassName = '';
     this.delete_class.hide();
   }
@@ -97,12 +95,8 @@ export class ClassComponent implements OnInit {
     this.classForm.reset();
   }
 
-
-
-
-
-  // closeClassFormModal(): void {
-  //   this.create_modal_title = "Create Class";
-  //   this.createClass.hide();
-  // }
+  ngOnDestroy() {
+    this.classSubscription.unsubscribe();
+    this.sClassSubscription.unsubscribe();
+  }
 }

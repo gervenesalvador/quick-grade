@@ -19,6 +19,7 @@ export class NavigationBarComponent implements OnInit {
   }
 
   logout() {
+    localStorage.clear();
     this.authService.logout();
   }
 
