@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { UserComponent } from './user/user.component';
+// import { UserComponent } from './user/user.component';
 import { ClassComponent } from './class/class.component';
 import { ClassDetailComponent } from './class/class-detail/class-detail.component';
 // import { ClassDetailComponent } from './class-detail/class-detail.component';
 import { StudentComponent } from './student/student.component';
-import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { StudentDetailComponent } from './student/student-detail/student-detail.component';
 import { ExamComponent } from './exam/exam.component';
-import { ExamDetailComponent } from './exam-detail/exam-detail.component';
+import { ExamDetailComponent } from './exam/exam-detail/exam-detail.component';
+// import { ExamDetailComponent } from './exam-detail/exam-detail.component';
 // import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
 import { PaperComponent } from './paper/paper.component';
-import { PaperDetailComponent } from './paper-detail/paper-detail.component';
+import { PaperDetailComponent } from './paper/paper-detail/paper-detail.component';
 import { TemplateComponent } from './template/template.component';
 import { AuthGuardService } from './services/auth-guard.service';
 

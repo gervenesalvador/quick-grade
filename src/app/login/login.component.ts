@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { User } from '../model/user';
+import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';

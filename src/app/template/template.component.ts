@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { User } from '../model/user';
+import { User } from '../models/user.model';
 import * as jspdf from 'jspdf'; 
 import html2canvas from 'html2canvas'; 
 import { DragulaService } from 'ng2-dragula';

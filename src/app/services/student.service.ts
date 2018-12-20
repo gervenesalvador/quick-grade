@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/Rx';
 
-import { Exam } from '../models/exam.model';
+import { Student } from '../models/student.model';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AuthService } from '../services/auth.service';
@@ -12,64 +12,63 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ExamService {
-  examGetAll = new Subject<Exam[]>();
-  examGetOne = new Subject<Exam>();
+export class StudentService {
+  studentGetAll = new Subject<Student[]>();
+  studentGetOne = new Subject<Student>();
   userAuth: any;
-  examCollection: AngularFirestoreCollection;
+  studentCollection: AngularFirestoreCollection;
 
   constructor(private afs: AngularFirestore, private authService: AuthService) {
     this.userAuth = this.authService.getUser();
-    this.examCollection = this.afs.collection('Users').doc(this.userAuth['id']).collection<Exam>('Exam');
+    this.studentCollection = this.afs.collection('Users').doc(this.userAuth['id']).collection<Student>('Student');
   }
 
   getAll() {
-    return this.examCollection.snapshotChanges()
+    return this.studentCollection.snapshotChanges()
     .map(
       (response: any) => {
         return response.map(
           (data: any) => {
-            let cl = data.payload.doc.data() as Exam;
+            let cl = data.payload.doc.data() as Student;
             return { id: data.payload.doc.id, ...cl };
           }
         );
       }
     ).subscribe(
       (response: any) => {
-        this.examGetAll.next(response);
+        this.studentGetAll.next(response);
       },
       (response: any) => {
-        this.examGetAll.next(response.error);
+        this.studentGetAll.next(response.error);
       }
     );
   }
 
   getOne(exam_uid) {
-    return this.examCollection.doc(exam_uid).snapshotChanges()
+    return this.studentCollection.doc(exam_uid).snapshotChanges()
     .map(
       (data: any) => {
         return { id: data.payload.id, ...data.payload.data() };
       }
     ).subscribe(
       (response: any) => {
-        this.examGetOne.next(response);
+        this.studentGetOne.next(response);
       },
       (response: any) => {
-        this.examGetOne.next(response);
+        this.studentGetOne.next(response);
       }
     );
   }
 
   insert(exam_data) {
-    return this.examCollection.add(exam_data);
+    return this.studentCollection.add(exam_data);
   }
 
-  update(exam_id, exam_data) {
-    return this.examCollection.doc(exam_id).update({ name: exam_data.name });
+  update(student_id, student_data) {
+    return this.studentCollection.doc(student_id).update(student_data);
   }
 
-  delete(exam_id) {
-    return this.examCollection.doc(exam_id).delete();
+  delete(student_id) {
+    return this.studentCollection.doc(student_id).delete();
   }
-
 }

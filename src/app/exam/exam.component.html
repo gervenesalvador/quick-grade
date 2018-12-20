@@ -17,15 +17,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let exam of exams | async">
+        <tr *ngFor="let exam of exams">
        	  <td>{{ exam.name }}</td>
           <td>{{ exam.items }}</td>
           <td>{{ exam.offline }}</td>
           <td>{{ exam.scanned }}</td>
           <td>
             <button type="button" class="btn btn-primary btn-sm" routerLink="/exams/{{ exam.id }}">View</button>
-            <button type="button" class="btn btn-primary btn-sm" (click)="editExam(exam)" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="examDelete(exam.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="examEdit(exam)" ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="examDeleteConfirmation(exam.id, exam.name)"><i class="fa fa-trash" aria-hidden="true"></i></button>
           </td>
         </tr>
       </tbody>
@@ -57,18 +57,18 @@
                 <h5 class="header-title">Class</h5>
                 <button mdbBtn type="button" color="primary" class="waves-light header-button" size="sm" (click)="create_class.show()" mdbWavesEffect>Add Class</button>
               </div>
-              <div formArrayName="classes">
-                <div *ngFor="let ccc of classes.controls; let i=index ">
+              <div formArrayName="classes" class="row">
+                <div class="col-6" *ngFor="let data of class; let i=index">
                   <div class="custom-control custom-checkbox custom-control-inline">
-                    <input  type="checkbox" class="custom-control-input" [id]="classForm[i].html_id" [formControlName]="i">
-                    <label class="custom-control-label" [for]="classForm[i].html_id">{{ classForm[i].class_name }}</label>
+                    <input type="checkbox" class="custom-control-input" [id]="'user-'+data.id" [formControlName]="i">
+                    <label class="custom-control-label" [for]="'user-'+data.id">{{ data.name }}</label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" mdbBtn color="primary" class="relative waves-light" (click)="create_exam.hide()" mdbWavesEffect>Save changes</button>
+            <button type="submit" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>{{ (createExamModalTitle == 'Add Exam') ? 'Create' : 'Update' }}</button>
             <button type="button" mdbBtn color="blue-grey" class="waves-light" aria-label="Close" (click)="closeExamModal()" mdbWavesEffect>Close</button>
           </div>
         </form>
@@ -85,7 +85,7 @@
           </button>
           <p class="heading lead mb-0">Add New Class</p>
         </div>
-        <form [formGroup]="classFormHtml" (ngSubmit)="classFormOnSubmit()">
+        <form [formGroup]="classForm" (ngSubmit)="classFormOnSubmit()">
           <div class="modal-body">
             <div class="md-form">
               <input mdbInputDirective type="text" id="class_name" class="form-control" formControlName="name" [mdbValidate]="false">
@@ -97,6 +97,26 @@
             <button type="button" mdbBtn color="blue-grey" class="waves-light" aria-label="Close" (click)="create_class.hide()" mdbWavesEffect>Close</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <div mdbModal #delete_exam="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-danger" role="document">
+      <div class="modal-content" *ngIf="selectedExam">
+        <div class="modal-header">
+          <p class="heading lead mb-0">Delete?</p>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="delete_exam.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="align-center">Are you sure you want to delete "<strong>{{ selectedExam.name }}</strong>"?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" mdbBtn color="danger" class="relative waves-light" (click)="examDelete(selectedExam.id)" mdbWavesEffect>DELETE</button>
+          <button type="button" mdbBtn color="outline-danger" class="waves-light" aria-label="Close" (click)="delete_exam.hide()" mdbWavesEffect>Close</button>
+        </div>
       </div>
     </div>
   </div>

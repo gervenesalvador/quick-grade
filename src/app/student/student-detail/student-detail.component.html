@@ -1,8 +1,8 @@
 <div>
   <app-navigation-bar></app-navigation-bar>
-  <div class="container" *ngIf="student | async; let data;">
-    <h1 class="mt-3 font-weight-bold">{{ data.firstName }} {{ data.lastName }}</h1>
-    <h5 class="mb-3">Student ID: {{ data.customID }}</h5>
+  <div class="container" *ngIf="student">
+    <h1 class="mt-3 font-weight-bold">{{ student.firstName }} {{ student.lastName }}</h1>
+    <h5 class="mb-3">Student ID: {{ student.customID }}</h5>
     
     <h5 class="mb-0 font-weight-bold">Papers</h5>
     <table class="table" small="true">
@@ -12,7 +12,7 @@
         <th>Action</th>
       </thead>
       <tbody>
-        <tr *ngFor="let paper of papers | async">
+        <tr *ngFor="let paper of papers">
           <td>{{ paper.examName }}</td>
           <td>Score {{ paper.score+'/'+paper.items }}</td>
           <td>
