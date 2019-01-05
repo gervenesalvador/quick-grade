@@ -26,11 +26,12 @@ import { StudentDetailComponent } from './student/student-detail/student-detail.
 // import { StudentDetailComponent } from './student-detail/student-detail.component';
 import { ExamComponent } from './exam/exam.component';
 import { ExamDetailComponent } from './exam/exam-detail/exam-detail.component';
-// import { ExamDetailComponent } from './exam-detail/exam-detail.component';
+import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
 // import { ClassDetailComponent } from './class-detail/class-detail.component';
 // import { StudentDetailComponent } from './student/student-detail/student-detail.component';
 import { PaperComponent } from './paper/paper.component';
 import { PaperDetailComponent } from './paper/paper-detail/paper-detail.component';
+// import { PaperEditComponent } from './paper/paper-edit/paper-edit.component';
 import { TemplateComponent } from './template/template.component';
 // import { ClassDetailExamComponent } from './class-detail/class-detail-exam/class-detail-exam.component';
 // import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
@@ -51,7 +52,8 @@ import { TemplateComponent } from './template/template.component';
     PaperComponent,
     PaperDetailComponent,
     TemplateComponent,
-    // ExamEditComponent,
+    ExamEditComponent,
+    // PaperEditComponent,
     // ClassDetailExamComponent,
   ],
   imports: [

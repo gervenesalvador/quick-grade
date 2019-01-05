@@ -136,7 +136,8 @@ export class PaperService {
   }
 
   update(exam_id, exam_data) {
-    return this.paperCollection.doc(exam_id).update({ name: exam_data.name });
+    this.paperCollection.doc(exam_id).delete();
+    return this.paperCollection.doc(exam_id).set(exam_data);
   }
 
   delete(exam_id) {

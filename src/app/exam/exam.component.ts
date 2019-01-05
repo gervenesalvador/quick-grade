@@ -38,7 +38,7 @@ export class ExamComponent implements OnInit, OnDestroy {
     classes: new FormArray([]), // this.buildClass
   });
   examFormClassList: Array<any> = [];
-  selectedExam = {};
+  selectedExam: any = {};
 
   classForm = this.formBuilder.group({
     name: [''],
@@ -78,6 +78,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   examEdit(exam) {
+    // console.log(exam);
     this.examForm.reset();
     let class_selected = [];
     for (let i = 0; i < this.examFormClassList.length; i++) {
@@ -99,9 +100,11 @@ export class ExamComponent implements OnInit, OnDestroy {
       classes: class_selected,
     });
 
+    this.selectedExam = exam;
     this.createExamModalTitle = "Edit "+ exam.name +" Exam";
     this.create_exam.show();
   }
+
   examFormOnSubmit() {
     let request = this.examForm.value;
     let exam_class = request.classes.map((arr, key) => {
@@ -111,18 +114,19 @@ export class ExamComponent implements OnInit, OnDestroy {
       return false;
     });
     exam_class = exam_class.filter(Boolean);
-
+    // console.log(exam_class instanceof Array );
+    // console.log(exam_class);
     if (request.exam_id) {
-      let exam_data = {
-        classes: exam_class,
-        date: new Date(request.date),
-        name: request.name,
-      }
-      // console.log(exam_data);
-      this.examService.update(request.exam_id, exam_data);
+      console.log(this.selectedExam);
+      this.selectedExam.classes = exam_class;
+      this.selectedExam.date = new Date(request.date);
+      this.selectedExam.name = request.name
 
+      // this.examService.update(request.exam_id, exam_data);
+      this.examService.update(request.exam_id, this.selectedExam);
       this.examForm.reset();
       this.create_exam.hide();
+      this.selectedExam = {};
       return true;
     }
 

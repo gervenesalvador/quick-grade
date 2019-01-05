@@ -1,74 +1,74 @@
 <div>
-	<app-navigation-bar></app-navigation-bar>
-	<!-- <p>{{ classes | json }}</p> -->
-	<div class="container">
-		<div class="header">
-			<h1 class="header-title">Classes List</h1>
-			<button mdbBtn type="button" color="primary" class="waves-light header-button" size="md" (click)="showClassFormModal()" mdbWavesEffect>Add Class</button>
-		</div>
-		<table class="table" small="true">
-			<thead>
-				<tr>
-					<th style="width: 50%;">Name</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr *ngFor="let class of classes">
-					<td>{{ class.name }}</td>
-					<td>
-						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/classes/{{class.id}}">View</button>
-						<button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect (click)="showClassFormModal(class.id,class.name)"><mdb-icon icon="pencil" class="ml-1"></mdb-icon></button>
-						<button mdbBtn type="button" color="danger" class="waves-light" size="sm" mdbWavesEffect (click)="deleteConfirmation(class.id,class.name)"><mdb-icon icon="trash" class="ml-1"></mdb-icon></button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+  <app-navigation-bar></app-navigation-bar>
+  <!-- <p>{{ classes | json }}</p> -->
+  <div class="container">
+    <div class="header">
+      <h1 class="header-title">Classes List</h1>
+      <button mdbBtn type="button" color="primary" class="waves-light header-button" size="md" (click)="showClassFormModal()" mdbWavesEffect>Add Class</button>
+    </div>
+    <table class="table" small="true">
+      <thead>
+        <tr>
+          <th style="width: 50%;">Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let class of classes">
+          <td>{{ class.name }}</td>
+          <td>
+            <button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect routerLink="/classes/{{class.id}}">View</button>
+            <button mdbBtn type="button" color="primary" class="waves-light" size="sm" mdbWavesEffect (click)="showClassFormModal(class.id,class.name)"><mdb-icon icon="pencil" class="ml-1"></mdb-icon></button>
+            <button mdbBtn type="button" color="danger" class="waves-light" size="sm" mdbWavesEffect (click)="deleteConfirmation(class.id,class.name)"><mdb-icon icon="trash" class="ml-1"></mdb-icon></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-	<div mdbModal #create_class="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close pull-right" aria-label="Close" (click)="hideClassFormModal()">
-						<span aria-hidden="true">×</span>
-					</button>
-					<p class="heading lead mb-0">{{ create_modal_title }}</p>
-				</div>
-				<form [formGroup]="classForm" (ngSubmit)="classFormOnSubmit()">
-					<input mdbInputDirective type="hidden" id="class_id" class="form-control" formControlName="class_id">
-					<div class="modal-body">
-						<div class="md-form">
-							<input mdbInputDirective type="text" id="class_name" class="form-control" formControlName="name" [mdbValidate]="false">
-							<label for="class_name" class="">Enter Class Name</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>Save changes</button>
-						<button type="button" mdbBtn color="blue-grey" class="waves-light" aria-label="Close" (click)="hideClassFormModal()" mdbWavesEffect>Close</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+  <div mdbModal #create_class="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right" aria-label="Close" (click)="hideClassFormModal()">
+            <span aria-hidden="true">×</span>
+          </button>
+          <p class="heading lead mb-0">{{ create_modal_title }}</p>
+        </div>
+        <form [formGroup]="classForm" (ngSubmit)="classFormOnSubmit()">
+          <input mdbInputDirective type="hidden" id="class_id" class="form-control" formControlName="class_id">
+          <div class="modal-body">
+            <div class="md-form">
+              <input mdbInputDirective type="text" id="class_name" class="form-control" formControlName="name" [mdbValidate]="false">
+              <label for="class_name" class="">Enter Class Name</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>Save changes</button>
+            <button type="button" mdbBtn color="blue-grey" class="waves-light" aria-label="Close" (click)="hideClassFormModal()" mdbWavesEffect>Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-	<div mdbModal #delete_class="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-notify modal-danger" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<p class="heading lead mb-0">Delete?</p>
-					<button type="button" class="close pull-right" aria-label="Close" (click)="delete_class.hide()">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p class="align-center">Are you sure you want to delete "<strong>{{ deletingClassName }}</strong>"?</p>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" mdbBtn color="danger" class="relative waves-light" (click)="deleteClass()" mdbWavesEffect>DELETE</button>
-					<button type="button" mdbBtn color="outline-danger" class="waves-light" aria-label="Close" (click)="delete_class.hide()" mdbWavesEffect>Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div mdbModal #delete_class="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-danger" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="heading lead mb-0">Delete?</p>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="delete_class.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="align-center">Are you sure you want to delete "<strong>{{ deletingClassName }}</strong>"?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" mdbBtn color="danger" class="relative waves-light" (click)="deleteClass()" mdbWavesEffect>DELETE</button>
+          <button type="button" mdbBtn color="outline-danger" class="waves-light" aria-label="Close" (click)="delete_class.hide()" mdbWavesEffect>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

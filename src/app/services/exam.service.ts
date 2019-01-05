@@ -65,7 +65,8 @@ export class ExamService {
   }
 
   update(exam_id, exam_data) {
-    return this.examCollection.doc(exam_id).update({ name: exam_data.name });
+    this.delete(exam_id);
+    return this.examCollection.doc(exam_id).set(exam_data);
   }
 
   delete(exam_id) {

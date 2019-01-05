@@ -1,13 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { User } from '../models/user.model';
 import * as jspdf from 'jspdf'; 
 import html2canvas from 'html2canvas'; 
 import { DragulaService } from 'ng2-dragula';
-// import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-template',
@@ -19,14 +14,8 @@ export class TemplateComponent implements OnInit {
   list: Array<any> = [];
   aa: any;
   image: string;
-  // subs = new Subscription();
-
-  // user_id: string;
-  usersCollection: AngularFirestoreCollection<User>;
-  userDoc: AngularFirestoreDocument<User>;
-  user: Observable<User>;
+  
   constructor(private route: ActivatedRoute, private dragulaService: DragulaService) { 
-    // this.user_id = this.route.snapshot.paramMap.get('id');
     dragulaService.createGroup('COPYABLE', {
       copy: (el, source) => {
         return source.id === 'type_container';
