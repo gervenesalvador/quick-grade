@@ -94,5 +94,6 @@ export class PaperDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.paperSubscription.unsubscribe();
     this.examSubscription.unsubscribe();
+    this.studentSubscription.unsubscribe();
   }
 }

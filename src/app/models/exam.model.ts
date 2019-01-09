@@ -7,5 +7,6 @@ export class Exam {
     public offline: boolean,
     public scanned: number,
     public classes: Array<any> = [],
+    public template: Array<any> = [],
   ) {}
 }

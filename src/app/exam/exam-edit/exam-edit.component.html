@@ -1,3 +1,51 @@
-<p>
-  exam-edit works!
-</p>
+<div>
+  <app-navigation-bar></app-navigation-bar>
+  <div class="container" *ngIf="exam">
+    <div class="header">
+      <h1 class="header-title">{{ exam.name }} Exam / Edit Keys</h1>
+      <button mdbBtn type="button" color="primary" class="waves-light header-button" size="md" mdbWavesEffect >Expoer Test Paper</button>
+    </div>
+    <div>
+      <h3>Select number of Items</h3>
+      <form [formGroup]="examKeysForm" (ngSubmit)="examKeysFormOnSubmit()">
+        <div class="row m-0">
+          <div class="custom-control custom-radio col-1">
+            <input mdbInputDirective (click)="setItemNumber('20')" type="radio" id="item_num-20" class="custom-control-input" value="20" formControlName="item_num" [mdbValidate]="false" required >
+            <label class="custom-control-label" for="item_num-20">20</label>
+          </div>
+          <div class="custom-control custom-radio col-1">
+            <input mdbInputDirective (click)="setItemNumber('30')" type="radio" id="item_num-30" class="custom-control-input" value="30" formControlName="item_num" [mdbValidate]="false">
+            <label class="custom-control-label" for="item_num-30">30</label>
+          </div>
+          <div class="custom-control custom-radio col-1">
+            <input mdbInputDirective (click)="setItemNumber('50')" type="radio" id="item_num-50" class="custom-control-input" value="50" formControlName="item_num" [mdbValidate]="false">
+            <label class="custom-control-label" for="item_num-50">50</label>
+          </div>
+        </div>
+        <div formArrayName="type" class="row mt-3">
+          <div class="col-9" *ngFor="let item of createRange(item_count); let i=index">
+            <div class="row">
+              <div class="col py-3 mb-3 border-bottom">
+                <div class="custom-control custom-radio d-inline-block mr-3">
+                  <input mdbInputDirective type="radio" [id]="'type-bubble-'+i" class="custom-control-input" value="bubble" [formControlName]="i" [mdbValidate]="false" (click)="changeType(i, 'Bubble')" required >
+                  <label class="custom-control-label" [for]="'type-bubble-'+i">Bubble</label>
+                </div>
+                <div class="custom-control custom-radio d-inline-block mr-3">
+                  <input mdbInputDirective type="radio" [id]="'type-text-'+i" class="custom-control-input" value="text" [formControlName]="i" [mdbValidate]="false" (click)="changeType(i, 'Text')">
+                  <label class="custom-control-label" [for]="'type-text-'+i">Text</label>
+                </div>
+              </div>
+              <div class="col py-3 mb-3 border-bottom">
+                <span>{{ type[i]  }} {{ i }}1 - {{ (i + 1) }}0</span>
+              </div>
+              <div class="col py-3 mb-3 border-bottom">
+                <button mdbBtn color="primary" size="sm" mdbWavesEffect class="w-100">View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>Update</button>
+      </form>
+    </div>
+  </div>
+</div>
