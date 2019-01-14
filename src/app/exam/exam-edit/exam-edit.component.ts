@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 import { ModalDirective } from 'angular-bootstrap-md';
-import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { ExamService } from '../../services/exam.service';
 
@@ -24,8 +24,8 @@ export class ExamEditComponent implements OnInit, OnDestroy {
   type = [];
 
   examKeysForm = new FormGroup({
-    item_num: new FormControl(''),
-    type: new FormArray([]),
+    item_num: new FormControl('', Validators.required),
+    type: new FormArray([], Validators.required),
   });
 
   constructor(
@@ -44,6 +44,8 @@ export class ExamEditComponent implements OnInit, OnDestroy {
         this.exam = response;
       }
     );
+
+    this.setItemNumber('20');
   }
 
   get addForm() {

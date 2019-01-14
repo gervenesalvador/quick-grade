@@ -7,7 +7,7 @@ import { ModalDirective } from 'angular-bootstrap-md';
 
 import { ExamService } from '../../services/exam.service';
 import { ClassService } from '../../services/class.service';
-import { PaperService } from '../../services/paper.service';
+// import { PaperService } from '../../services/paper.service';
 
 import { Exam } from '../../models/exam.model';
 import { Class } from '../../models/class.model';
@@ -26,35 +26,35 @@ export class ExamDetailComponent implements OnInit, OnDestroy {
 
   exam: Exam;
   classes: Class[] = [];
-  papers: Paper[] = [];
+  // papers: Paper[] = [];
 
   examSubscription: Subscription;
   classSubscription: Subscription;
-  paperSubscription: Subscription;
+  // paperSubscription: Subscription;
 
-  chartData:Array<any> = [1, 1];
-  chartLabels:Array<any> = ['Passed', 'Failed'];
-  chartColors:Array<any> = [{
-      hoverBorderColor: ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'],
-      hoverBorderWidth: 0,
-      backgroundColor: ["#03d800", "#F7464A"],
-      hoverBackgroundColor: ["#0ca90a","#FF5A5E"]
-  }];
-  chartOptions:any = {
-      responsive: true
-  };
-  chartClicked(e: any): void { }
-  chartHovered(e: any): void { }
+  // chartData:Array<any> = [1, 1];
+  // chartLabels:Array<any> = ['Passed', 'Failed'];
+  // chartColors:Array<any> = [{
+  //     hoverBorderColor: ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'],
+  //     hoverBorderWidth: 0,
+  //     backgroundColor: ["#03d800", "#F7464A"],
+  //     hoverBackgroundColor: ["#0ca90a","#FF5A5E"]
+  // }];
+  // chartOptions:any = {
+  //     responsive: true
+  // };
+  // chartClicked(e: any): void { }
+  // chartHovered(e: any): void { }
 
   constructor(
     private route: ActivatedRoute,
     private examService: ExamService,
     private classService: ClassService,
-    private paperService: PaperService,
+    // private paperService: PaperService,
   ) {
     this.exam_id = this.route.snapshot.paramMap.get('examID');
     this.examService.getOne(this.exam_id);
-    this.paperService.getAllExam(this.exam_id);
+    // this.paperService.getAllExam(this.exam_id);
   }
 
   ngOnInit() {
@@ -77,12 +77,12 @@ export class ExamDetailComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.paperSubscription = this.paperService.paperGetAll.subscribe(
-      (response: any) => {
-        this.papers = response;
-        // console.log(response);
-      }
-    );
+    // this.paperSubscription = this.paperService.paperGetAll.subscribe(
+    //   (response: any) => {
+    //     this.papers = response;
+    //     // console.log(response);
+    //   }
+    // );
   }
 
   deletePaperConfirmation(paper_id, student_name) {
@@ -93,15 +93,15 @@ export class ExamDetailComponent implements OnInit, OnDestroy {
     this.delete_paper.show();
   }
 
-  paperDelete(paper_id) {
-    this.selected_paper = {};
-    this.paperService.delete(paper_id);
-    this.delete_paper.hide();
-  }
+  // paperDelete(paper_id) {
+  //   this.selected_paper = {};
+  //   // this.paperService.delete(paper_id);
+  //   this.delete_paper.hide();
+  // }
 
   ngOnDestroy() {
     this.examSubscription.unsubscribe();
-    this.paperSubscription.unsubscribe();
+    // this.paperSubscription.unsubscribe();
     this.classSubscription.unsubscribe();
   }
 

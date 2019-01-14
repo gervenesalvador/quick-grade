@@ -8,7 +8,7 @@
         <h5 class="mb-3">Exam Date: {{ exam.date.toDate() | date:'medium' }}</h5>
       </div>
       <div class="col">
-        <canvas mdbChart
+        <!-- <canvas mdbChart
             chartType="pie"
             [data]="chartData"
             [labels]="chartLabels"
@@ -17,13 +17,14 @@
             [legend]="true"
             (chartHover)="chartHovered($event)"
             (chartClick)="chartClicked($event)">
-        </canvas>
+        </canvas> -->
       </div>
     </div>
     <h3 class="mb-0 font-weight-bold">Class List</h3>
     <table class="table" small="true">
       <thead>
         <tr>
+          <th style="width: 50px;"></th>
           <th>Title</th>
           <th>Enrolled</th>
           <th>Action</th>
@@ -31,6 +32,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let class_d of classes">
+          <td><i class="fa fa-users"></i></td>
           <td>{{ class_d.name }}</td>
           <td>Enrolled: {{ (class_d.students) ? class_d.students.length : 0 }}</td>
           <td>
@@ -39,7 +41,12 @@
         </tr>
       </tbody>
     </table>
-    <h3 class="mb-1 font-weight-bold">Papers List</h3>
+    <div class="row">
+      <button mdbBtn type="button" color="primary" class="waves-light" size="lg" mdbWavesEffect [routerLink]="'/exams/'+exam_id+'/papers'"><i class="fa fa-file"></i> View Papers</button>
+      <button mdbBtn type="button" color="primary" class="waves-light" size="lg" mdbWavesEffect [routerLink]="'/exams/'+exam_id+'/edit'"><i class="fa fa-pencil"></i> Edit Keys</button>
+      <button mdbBtn type="button" color="primary" class="waves-light" size="lg" mdbWavesEffect routerLink="/"><i class="fa fa-bar-chart"></i> Item Analysis</button>
+    </div>
+    <!-- <h3 class="mb-1 font-weight-bold">Papers List</h3>
     <div class="row" *ngIf="papers">
       <div class="col-3 mb-3" *ngFor="let paper of papers">
         <mdb-card *ngIf="paper.student | async; let student">
@@ -49,12 +56,12 @@
               <h4 class="mb-0">{{ student.firstName }} {{ student.lastName }}</h4>
               <h5>Score: {{ paper.score }} / {{ paper.items }}</h5>
             </mdb-card-title>
-            <button mdbBtn color="danger" mdbWavesEffect class="w-100" (click)="deletePaperConfirmation(paper.id, student.firstName+' '+student.lastName)"><mdb-icon icon="trash" class="ml-1"></mdb-icon> <!-- Delete --></button>
+            <button mdbBtn color="danger" mdbWavesEffect class="w-100" (click)="deletePaperConfirmation(paper.id, student.firstName+' '+student.lastName)"><mdb-icon icon="trash" class="ml-1"></mdb-icon></button>
           </mdb-card-body>
         </mdb-card>
       </div>
-    </div>
-    <div mdbModal #delete_paper="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    </div> -->
+    <!-- <div mdbModal #delete_paper="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-notify modal-danger" role="document">
         <div class="modal-content" *ngIf="selected_paper;">
           <div class="modal-header">
@@ -72,6 +79,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

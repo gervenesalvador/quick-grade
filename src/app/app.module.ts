@@ -33,6 +33,8 @@ import { PaperComponent } from './paper/paper.component';
 import { PaperDetailComponent } from './paper/paper-detail/paper-detail.component';
 // import { PaperEditComponent } from './paper/paper-edit/paper-edit.component';
 import { TemplateComponent } from './template/template.component';
+import { ExamPapersComponent } from './exam/exam-papers/exam-papers.component';
+import { ExamItemAnalysisComponent } from './exam/exam-item-analysis/exam-item-analysis.component';
 // import { ClassDetailExamComponent } from './class-detail/class-detail-exam/class-detail-exam.component';
 // import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
 
@@ -53,6 +55,8 @@ import { TemplateComponent } from './template/template.component';
     PaperDetailComponent,
     TemplateComponent,
     ExamEditComponent,
+    ExamPapersComponent,
+    ExamItemAnalysisComponent,
     // PaperEditComponent,
     // ClassDetailExamComponent,
   ],

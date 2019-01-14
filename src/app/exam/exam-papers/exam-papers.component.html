@@ -1,0 +1,42 @@
+<div>
+  <app-navigation-bar></app-navigation-bar>
+  <div class="container" *ngIf="exam">
+    <h1 class="mt-3 font-weight-bold">Exam / {{ exam.name }} / View Papers</h1>
+
+    <div class="row" *ngIf="papers">
+      <div class="col-3 mb-3" *ngFor="let paper of papers">
+        <mdb-card *ngIf="paper.student | async; let student">
+          <mdb-card-img [src]="paper.imgUrl" alt="Paper Image" routerLink="/papers/{{ paper.id }}"></mdb-card-img>
+          <mdb-card-body>
+            <mdb-card-title>
+              <h4 class="mb-0">{{ student.firstName }} {{ student.lastName }}</h4>
+              <h5>Score: {{ paper.score }} / {{ paper.items }}</h5>
+            </mdb-card-title>
+            <button mdbBtn color="danger" mdbWavesEffect class="w-100" (click)="deletePaperConfirmation(paper.id, student.firstName+' '+student.lastName)"><mdb-icon icon="trash" class="ml-1"></mdb-icon></button>
+          </mdb-card-body>
+        </mdb-card>
+      </div>
+    </div>
+
+    <div mdbModal #delete_paper="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-danger" role="document">
+        <div class="modal-content" *ngIf="selected_paper;">
+          <div class="modal-header">
+            <p class="heading lead mb-0">Delete?</p>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="delete_paper.hide()">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="align-center">Are you sure you want to delete "<strong>{{ selected_paper.student_name }}</strong>" Exam ({{ exam.name }})?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" mdbBtn color="danger" class="relative waves-light" (click)="paperDelete(selected_paper.id)" mdbWavesEffect>DELETE</button>
+            <button type="button" mdbBtn color="outline-danger" class="waves-light" aria-label="Close" (click)="delete_paper.hide()" mdbWavesEffect>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

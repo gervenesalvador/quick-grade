@@ -10,6 +10,7 @@ import { StudentDetailComponent } from './student/student-detail/student-detail.
 import { ExamComponent } from './exam/exam.component';
 import { ExamDetailComponent } from './exam/exam-detail/exam-detail.component';
 import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
+import { ExamPapersComponent } from './exam/exam-papers/exam-papers.component';
 import { PaperComponent } from './paper/paper.component';
 import { PaperDetailComponent } from './paper/paper-detail/paper-detail.component';
 // import { PaperEditComponent } from './paper/paper-edit/paper-edit.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'exams', canActivate: [AuthGuardService], component: ExamComponent },
   { path: 'exams/:examID', canActivate: [AuthGuardService], component: ExamDetailComponent },
   { path: 'exams/:examID/edit', canActivate: [AuthGuardService], component: ExamEditComponent },
+  { path: 'exams/:examID/papers', canActivate: [AuthGuardService], component: ExamPapersComponent },
   { path: 'papers/:paperID', canActivate: [AuthGuardService], component: PaperDetailComponent },
   // { path: 'papers/:paperID/edit', canActivate: [AuthGuardService], component: PaperEditComponent },
   { path: 'template', canActivate: [AuthGuardService], component: TemplateComponent },
