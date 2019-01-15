@@ -44,7 +44,7 @@
     <div class="row">
       <button mdbBtn type="button" color="primary" class="waves-light" size="lg" mdbWavesEffect [routerLink]="'/exams/'+exam_id+'/papers'"><i class="fa fa-file"></i> View Papers</button>
       <button mdbBtn type="button" color="primary" class="waves-light" size="lg" mdbWavesEffect [routerLink]="'/exams/'+exam_id+'/edit'"><i class="fa fa-pencil"></i> Edit Keys</button>
-      <button mdbBtn type="button" color="primary" class="waves-light" size="lg" mdbWavesEffect routerLink="/"><i class="fa fa-bar-chart"></i> Item Analysis</button>
+      <button mdbBtn type="button" color="primary" class="waves-light" size="lg" mdbWavesEffect [routerLink]="'/exams/'+exam_id+'/item-analysis'"><i class="fa fa-bar-chart"></i> Item Analysis</button>
     </div>
     <!-- <h3 class="mb-1 font-weight-bold">Papers List</h3>
     <div class="row" *ngIf="papers">

@@ -17,37 +17,28 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 
 import { LoginComponent } from './login/login.component';
-// import { UserComponent } from './user/user.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { ClassComponent } from './class/class.component';
 import { ClassDetailComponent } from './class/class-detail/class-detail.component';
 import { StudentComponent } from './student/student.component';
 import { StudentDetailComponent } from './student/student-detail/student-detail.component';
-// import { StudentDetailComponent } from './student-detail/student-detail.component';
 import { ExamComponent } from './exam/exam.component';
 import { ExamDetailComponent } from './exam/exam-detail/exam-detail.component';
 import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
-// import { ClassDetailComponent } from './class-detail/class-detail.component';
-// import { StudentDetailComponent } from './student/student-detail/student-detail.component';
-import { PaperComponent } from './paper/paper.component';
-import { PaperDetailComponent } from './paper/paper-detail/paper-detail.component';
-// import { PaperEditComponent } from './paper/paper-edit/paper-edit.component';
-import { TemplateComponent } from './template/template.component';
 import { ExamPapersComponent } from './exam/exam-papers/exam-papers.component';
 import { ExamItemAnalysisComponent } from './exam/exam-item-analysis/exam-item-analysis.component';
-// import { ClassDetailExamComponent } from './class-detail/class-detail-exam/class-detail-exam.component';
-// import { ExamEditComponent } from './exam/exam-edit/exam-edit.component';
+import { PaperComponent } from './paper/paper.component';
+import { PaperDetailComponent } from './paper/paper-detail/paper-detail.component';
+import { TemplateComponent } from './template/template.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    // UserComponent,
     ClassComponent,
     StudentComponent,
     ExamComponent,
     ClassDetailComponent,
-    // StudentDetailComponent,
     NavigationBarComponent,
     StudentDetailComponent,
     ExamDetailComponent,
@@ -57,8 +48,6 @@ import { ExamItemAnalysisComponent } from './exam/exam-item-analysis/exam-item-a
     ExamEditComponent,
     ExamPapersComponent,
     ExamItemAnalysisComponent,
-    // PaperEditComponent,
-    // ClassDetailExamComponent,
   ],
   imports: [
     BrowserModule,
