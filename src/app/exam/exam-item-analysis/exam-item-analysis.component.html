@@ -25,8 +25,8 @@
         <tr *ngFor="let data of analysis;" >
           <td>{{ data.item_num }}</td>
           <td>{{ data.correct }}</td>
-          <td>{{ ((data.correct / total_students) * 100).toFixed(2)  }} %</td>
-          <td>0</td>
+          <td>{{ data.difficulty }} %</td>
+          <td>{{ data.index }}</td>
         </tr>
       </tbody>
     </table>

@@ -25,6 +25,8 @@ export class ExamItemAnalysisComponent implements OnInit, OnDestroy {
 
   analysis = [];
   total_students = 0;
+  student = [];
+
   // chart datas
   chartData:Array<any> = [1, 1];
   chartLabels:Array<any> = ['Passed', 'Failed'];
@@ -70,18 +72,51 @@ export class ExamItemAnalysisComponent implements OnInit, OnDestroy {
       (papers: any) => {
         this.papers = papers;
         // console.log(papers);
-        this.total_students = papers.length;
+        // this.total_students = papers.length;
+        
         for (let p = 0; papers.length > p; p++) {
           let studentAnswers = papers[p].studentAnswers;
-          for (let i = 0; studentAnswers.length > i; i++) {
+          
+          let data = {
+            student_id: papers[p].studentId,
+            total_score: 0,
+            question: new Array(papers[p].items)
+          };
+          
+
+          for (let i = 0; papers[p].items > i; i++) {
             let sa = studentAnswers[i];
+            data.question[i] = 0;
             if (sa.correct) {
               this.analysis[i].correct++;
-              // this.analysis[i].difficulty = this.analysis[i].correct / total_students;
+              this.analysis[i].difficulty = ((this.analysis[i].correct / papers.length) * 100).toFixed(2);
+              data.question[i] = 1;
             }
           }
+          this.student.push(data);
         }
 
+        for (let s = 0; this.student.length > s; s++) {
+          let student = this.student[s];
+          let total_correct = student.question.reduce((a, b) => a + b, 0);
+          this.student[s].total_score = (total_correct / student.question.length) * 100;
+        }
+        this.student.sort((a, b) => parseFloat(b.total_score) - parseFloat(a.total_score));
+
+        let divider = this.student.length / 2;
+        for (let a = 0; this.analysis.length > a;a++) {
+          let upper = 0;
+          let lower = 0;
+          // upper loop
+          for (let u = 0; divider > u; u++) {
+            upper = (+upper) + (+this.student[u].question[a]);
+          }
+          // lower loop
+          for (let l = divider; this.student.length > l; l++) {
+            lower +=this.student[l].question[a]
+          }
+          this.analysis[a].index = ((upper - lower) / divider).toFixed(2);
+        }
         console.log(this.analysis);
       }
     );
