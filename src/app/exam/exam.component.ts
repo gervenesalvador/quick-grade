@@ -134,7 +134,7 @@ export class ExamComponent implements OnInit, OnDestroy {
       answers: [],
       classes: exam_class,
       date: new Date(this.examForm.value.date),
-      items: [],
+      items: 0,
       name: this.examForm.value.name,
       offline: false, scanned: 0, students: [], template: []
     });
