@@ -1,15 +1,18 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
-// import * as firebase from 'firebase/app';
-import { AuthService } from '../services/auth.service';
-// import { Observable } from 'rxjs/Observable';
+import { AngularFireStorage } from '@angular/fire/storage';
+
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 import { ModalDirective } from 'angular-bootstrap-md';
+
+import { User } from '../models/user.model';
+
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -29,16 +32,23 @@ export class LoginComponent implements OnInit {
 		password: new FormControl(''),
 	});
   userCreateForm = new FormGroup({
+    name: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
+    photo: new FormControl(''),
   });
 
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
+  // photoUrl: any;
+  photo: any;
+  
   constructor(
     private authService: AuthService,
   	private afs: AngularFirestore,
   	private router: Router,
     private _firebaseAuth: AngularFireAuth,
-    
+    private storage: AngularFireStorage
   ) {
     // console.log(this._firebaseAuth.authState);
     this.user = _firebaseAuth.authState;
@@ -57,7 +67,10 @@ export class LoginComponent implements OnInit {
     let data = this.userForm.value;
     this.authService.signInRegular(data.email, data.password)
       .then((res) => {
-        localStorage.setItem('qg_user', JSON.stringify({id: res.user.uid, email: res.user.email }));
+        // console.log(res);
+        // console.log(res.user.getIdToken());
+        this.setAuth(res.user.uid, res.user.displayName, res.user.email, res.user.photoURL);
+
         this.router.navigate(['/classes']);
       }).catch((err) =>
         this.showAlert("Error: " + err )
@@ -74,8 +87,8 @@ export class LoginComponent implements OnInit {
         //   console.log(data);
         // });
 
-
-        localStorage.setItem('qg_user', JSON.stringify({id: res.user.uid, email: res.user.email }));
+        this.setAuth(res.user.uid, res.user.displayName, res.user.email, res.user.photoURL);
+        // localStorage.setItem('qg_user', JSON.stringify({id: res.user.uid, email: res.user.email }));
         this.router.navigate(['/classes']);
       }).catch((err) => {
         console.log("Something went wrong: " + err);
@@ -86,9 +99,32 @@ export class LoginComponent implements OnInit {
     let data = this.userCreateForm.value;
     this.authService.createAccountRegular(data.email, data.password)
       .then((res) => {
-        this.afs.collection('Users').doc(res.user.uid).set({email: res.user.email});
-        localStorage.setItem('qg_user', JSON.stringify({id: res.user.uid, email: res.user.email }));
-        this.router.navigate(['/classes']);
+        this.afs.collection('Users').doc(res.user.uid).set({email: res.user.email}); // create or update current user
+        // localStorage.setItem('qg_user', JSON.stringify({id: res.user.uid, email: res.user.email }));
+
+        // save photo first
+        
+        let ext = this.photo.type.split('/')[1],
+            photo_filePath = `profile/${new Date().getTime()}.${ext}`, 
+            ref = this.storage.ref(photo_filePath),
+            task = this.storage.upload(photo_filePath, this.photo);
+
+        task.snapshotChanges().pipe(
+          finalize(() => {
+            ref.getDownloadURL().subscribe(
+              (photo_url) => {
+                this.authService.updateUser({
+                  name: data.name,
+                  photoURL: photo_url,
+                });
+                this.setAuth(res.user.uid, data.name, res.user.email, photo_url);
+
+                this.router.navigate(['/classes']);
+                return true;
+              }
+            );
+          })
+        ).subscribe();
       });
     this.closeCreateUserForm();
   }
@@ -103,33 +139,6 @@ export class LoginComponent implements OnInit {
     this.create_user.hide();
   }
 
-  // logout() {
-  //   this.authService.logout();
-  //   console.log("logout");
-  // }
-
-  // login() :void {
-  // 	let data = this.userForm.value;
-  // 	this.usersCollection = this.afs.collection<User>('Users', ref => ref.where('email', '==', data.email));
-		// this.usersCollection.snapshotChanges().map(user => {
-		// 	return user.map(user_data => {
-		// 		return { id: user_data.payload.doc.id, ...user_data.payload.doc.data() };
-		// 	});
-		// }).subscribe(user => {
-  //     console.log(user[0].id);
-		// 	if (user[0].id) {
-  //       console.log("/users/"+user[0].id+"/classes")
-
-  //       this.router.navigateByUrl("/users/"+user[0].id+"/classes");
-  //       // this.router.navigate(["/users/"+user[0].id+"/classes"]);
-		// 	} else {
-		// 		this.userForm.reset();
-		// 		this.showAlert("Email not found");
-		// 	}
-			
-		// });
-  // }
-
   closeAlert() {
   	this.alert_message = "";
     this.alert.nativeElement.classList.remove('show');
@@ -141,4 +150,40 @@ export class LoginComponent implements OnInit {
   	this.alert.nativeElement.classList.add('show');
     this.alert.nativeElement.style.display = 'block';
   }
+
+  uploadFile(event) {
+    this.photo = event.target.files[0];
+    // console.log(this.photo);
+    // let file = event.target.files[0],
+    //     ext = file.type.split('/')[1],
+    //     filePath = `profile/${new Date().getTime()}.${ext}`,
+    //     fileRef = this.storage.ref(filePath),
+    //     task = this.storage.upload(filePath, file);
+
+    // observe percentage changes
+    // this.uploadPercent = task.percentageChanges();
+    // get notified when the download URL is available
+    // task.snapshotChanges().pipe(
+    //     finalize(() => {
+    //       this.downloadURL = fileRef.getDownloadURL();
+    //       console.log(this.downloadURL);
+    //     })
+    // ).subscribe(
+    //   (res: any) => {
+    //     console.log(res);
+    //     console.log(this.downloadURL);
+    //   }
+    // );
+
+  }
+
+  setAuth(id, name, email, photo) {
+    localStorage.setItem('qg_user', JSON.stringify({
+      id: id, 
+      name: name,
+      email: email,
+      picture: photo,
+    }));
+  }
+
 }

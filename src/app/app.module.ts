@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -58,6 +59,7 @@ import { TemplateComponent } from './template/template.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     AppRoutingModule,
     DragulaModule.forRoot(),
   ],

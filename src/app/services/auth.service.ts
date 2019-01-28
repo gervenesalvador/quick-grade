@@ -18,6 +18,7 @@ export class AuthService {
     this.user.subscribe((user) => {
       if (user) {
         this.userDetails = user;
+        console.log(this.userDetails);
       } else {
         this.userDetails = null;
       }
@@ -49,6 +50,13 @@ export class AuthService {
 
   getUser() {
     return JSON.parse(localStorage.getItem('qg_user'));
+  }
+
+  updateUser(data) {
+    this._firebaseAuth.auth.currentUser.updateProfile({
+      displayName: data.name,
+      photoURL: data.photoURL,
+    })
   }
 
   logout() {

@@ -1,15 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-// import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-// import { Observable } from 'rxjs/Observable';
-// import 'rxjs/add/operator/map';
-// import { ActivatedRoute } from '@angular/router';
+
 import { Subscription } from 'rxjs';
-// import { User } from '../model/user';
-// import { Class } from '../model/class';
+
 import { FormGroup, FormControl } from '@angular/forms';
 import { ModalDirective } from 'angular-bootstrap-md';
+
 import { ClassService } from '../services/class.service';
-// import { AuthService } from '../services/auth.service';
 
 import { Class } from '../models/class.model';
 
@@ -99,4 +95,28 @@ export class ClassComponent implements OnInit, OnDestroy  {
     this.classSubscription.unsubscribe();
     // this.sClassSubscription.unsubscribe();
   }
+
+  // uploadFile(event) {
+
+  //   let file = event.target.files[0],
+  //       ext = file.type.split('/')[1],
+  //       filePath = `profile/${new Date().getTime()}.${ext}`,
+  //       fileRef = this.storage.ref(filePath),
+  //       task = this.storage.upload(filePath, file);
+
+  //   task.snapshotChanges().pipe(
+  //       finalize(() => {
+  //         fileRef.getDownloadURL().subscribe(
+  //           (res) => {
+  //             console.log(res);
+  //           }
+  //         );
+  //       })
+  //   ).subscribe(
+  //     // (res: any) => {
+  //     //   console.log(res);
+  //     //   console.log(this.downloadURL);
+  //     // }
+  //   );
+  // }
 }
