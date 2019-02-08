@@ -42,10 +42,13 @@ export class ExamEditComponent implements OnInit, OnDestroy {
     this.examSubscription = this.examService.examGetOne.subscribe(
       (response: any) => {
         this.exam = response;
+        // console.log(typeof response.items);
+        // console.log(response);
+        this.setItemNumber(response.items);
       }
     );
 
-    this.setItemNumber('20');
+    
   }
 
   get addForm() {
