@@ -38,14 +38,14 @@ export class ExamPapersComponent implements OnInit, OnDestroy {
     this.examSubscription = this.examService.examGetOne.subscribe(
       (response: any) => {
         this.exam = response;
-        console.log(response);
+        // console.log(response);
       }
     );
 
     this.paperSubscription = this.paperService.paperGetAll.subscribe(
       (response: any) => {
         this.papers = response;
-        console.log(response);
+        // console.log(response);
       }
     );
   }

@@ -20,6 +20,7 @@ import { Student } from '../../models/student.model';
 })
 export class PaperDetailComponent implements OnInit, OnDestroy {
   @ViewChild('studentPaperUpdateAnswer') studentPaperUpdateAnswer: ModalDirective;
+  @ViewChild('studentPaperUpdateAnswerText') studentPaperUpdateAnswerText: ModalDirective;
 
   paperForm = new FormGroup({
     answer: new FormControl(''),
@@ -51,6 +52,7 @@ export class PaperDetailComponent implements OnInit, OnDestroy {
       (response: any) => {
         if (response.examId && response.studentId) {
           this.paper = response;
+          // console.log(response);
           this.examService.getOne(response.examId);
           this.studentService.getOne(response.studentId);
         }
@@ -60,6 +62,7 @@ export class PaperDetailComponent implements OnInit, OnDestroy {
     this.examSubscription = this.examService.examGetOne.subscribe(
       (response: any) => {
         this.exam = response;
+        // console.log(response);
       }
     );
 
@@ -70,15 +73,45 @@ export class PaperDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  paperEdit(i) {
+  paperEdit(i, type) {
     this.paperForm.reset();
     let studentAnswers = this.paper.studentAnswers[+i];
+
+    let template =  this.exam.template[this.getGroup(studentAnswers.itemNumber) - 1].type; //studentAnswers.itemNumber / 10;
     this.paperForm.setValue({
       x: i,
       answer: studentAnswers.answer,
       is_correct: studentAnswers.correct,
     });
-    this.studentPaperUpdateAnswer.show();
+
+    if (template == 1) { 
+      this.studentPaperUpdateAnswer.show();
+    } else {
+      this.studentPaperUpdateAnswerText.show();
+    }
+    // console.log(studentAnswers);
+    // console.log(typeof studentAnswers);
+
+
+    
+  }
+
+  getGroup(x) {
+    if (x >= 1 && x <= 10) {
+      return 1;
+    }
+    if (x >= 11 && x <= 20) {
+      return 2
+    }
+    if (x >= 21 && x <= 30) {
+      return 3
+    }
+    if (x >= 31 && x <= 40) {
+      return 4;
+    }
+    if (x >= 41 && x <= 50) {
+      return 5;
+    }
   }
 
   paperFormOnSubmit() {
@@ -89,6 +122,7 @@ export class PaperDetailComponent implements OnInit, OnDestroy {
 
     this.paperForm.reset();
     this.studentPaperUpdateAnswer.hide();
+    this.studentPaperUpdateAnswerText.hide();
   }
 
   ngOnDestroy() {

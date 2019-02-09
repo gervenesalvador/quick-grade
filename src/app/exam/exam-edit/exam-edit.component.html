@@ -40,7 +40,7 @@
                 <span>{{ type[i]  }} {{ i }}1 - {{ (i + 1) }}0</span>
               </div>
               <div class="col py-3 mb-3 border-bottom">
-                <button mdbBtn color="primary" size="sm" mdbWavesEffect class="w-100">View</button>
+                <button mdbBtn color="primary" size="sm" mdbWavesEffect class="w-100" [routerLink]="'/exams/'+exam_id+'/edit'">View</button>
               </div>
             </div>
           </div>

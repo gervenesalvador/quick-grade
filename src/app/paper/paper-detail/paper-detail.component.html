@@ -112,4 +112,26 @@
       </div>
     </div>
   </div>
+  <div mdbModal #studentPaperUpdateAnswerText="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-primary" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="heading lead mb-0">Update Answer</p>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="studentPaperUpdateAnswerText.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form [formGroup]="paperForm" (ngSubmit)="paperFormOnSubmit()">
+          <input mdbInputDirective type="hidden" id="x" class="form-control" formControlName="x">
+          <div class="modal-body">
+            <input type="text" class="form-control mb-3" formControlName="answer" [mdbValidate]="false" mdbInputDirective>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>Save</button>
+            <button type="button" mdbBtn color="outline-primary" class="waves-light" aria-label="Close" (click)="studentPaperUpdateAnswerText.hide()" mdbWavesEffect>Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
