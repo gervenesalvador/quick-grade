@@ -82,7 +82,7 @@ export class ExamEditComponent implements OnInit, OnDestroy {
     let template = [];
 
     this.exam.template = [];
-    this.exam.items = request.item_num;
+    this.exam.items = parseInt(request.item_num);
 
     for (let i  = 0; i < request.type.length; i++) {
       template.push({
