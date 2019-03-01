@@ -3,6 +3,7 @@ import { FormBuilder, FormArray } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 import { ModalDirective } from 'angular-bootstrap-md';
+import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 
 import { StudentService } from '../services/student.service';
 import { ClassService } from '../services/class.service';
@@ -40,6 +41,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   classSubscription: Subscription;
 
   selectedStudent: any = {};
+  ready_import = 1;
 
   constructor(
     private studentService: StudentService,
@@ -152,6 +154,58 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.classService.insert(class_data);
     this.create_class.hide();
     this.classForm.reset()
+  }
+
+  export_all_student() {
+    let csv = [],
+    _students = this.students;
+    csv.push({
+      student_id: "Student ID",
+      firstname: "First name",
+      lastname: "Last name"
+    });
+    for (let key of Object.keys(_students)) {
+      let student = _students[key];
+      csv.push({
+        student_id: student.customID,
+        firstname: student.firstName,
+        lastname: student.lastName,
+      })
+    }
+    this.ready_import = 1;
+    new Angular5Csv(csv, "Students");
+  }
+
+  import_students(input) {
+    if (input.target.files && input.target.files[0] && this.ready_import) {
+      let file = input.target.files[0],  reader = new FileReader();
+
+      reader.readAsText(file);
+      reader.onload = (event: any) => {
+        let csv = event.target.result,
+        allTextLines = csv.split(/\r\n|\n/);
+        
+        for (let i = 1; i < allTextLines.length; i++) {
+          let data = allTextLines[i].split(',');
+          for (let j = 0; j < data.length; j++) {
+            if (data[j].includes(`"`)) {
+              data[j] = data[j].substring(1, data[j].length-1);
+            }
+          }
+          let student = this.students.filter(obj => { return obj.customID === data[0]});
+          if (student.length <= 0) { continue; }
+          let _student = student[0],
+          _student_id = _student.id;
+          _student.firstName = data[1];
+          _student.lastName = data[2];
+
+          delete _student.id;
+          this.studentService.update(_student_id, _student);
+          
+        }
+        alert("Done Updating students name");
+      }
+    }
   }
 
   ngOnDestroy() {

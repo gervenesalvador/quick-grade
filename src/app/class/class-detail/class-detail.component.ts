@@ -43,9 +43,10 @@ export class ClassDetailComponent implements OnInit, OnDestroy {
   // DO NOT DELETE - FOR PATTERN
   csv_students = {};
   ready_export = 0;
+  ready_import = 0;
 
   constructor(
-    private classService: ClassService, 
+    private classService: ClassService,
     private route: ActivatedRoute,
     private examService: ExamService,
     private studentService: StudentService,
@@ -74,7 +75,7 @@ export class ClassDetailComponent implements OnInit, OnDestroy {
 
         let csv_container = this.clone(this.csv_container);
         csv_container['student_id'] = response.customID;
-        csv_container['student_name'] = response.firstName + " " + response.firstName;
+        csv_container['student_name'] = response.firstName + " " + response.lastName;
         this.csv_students[response.id] = csv_container;
       }
     );
@@ -82,7 +83,9 @@ export class ClassDetailComponent implements OnInit, OnDestroy {
     this.paperSubscription = this.paperService.paperGetOne.subscribe(
       (response: any) => {
         if (response.length) {
-          this.csv_students[response[0].studentId][response[0].examId] = response[0].score;
+          this.papers.push(response[0]);
+          // console.log(response[0].id + " | " + response[0].score);
+          this.csv_students[response[0].studentId][response[0].examId] = (typeof response[0].score !== 'undefined') ? response[0].score : 0;
           this.ready_export = 1;
         }
       }
@@ -118,7 +121,80 @@ export class ClassDetailComponent implements OnInit, OnDestroy {
     for (let i = 0; i < csv_student.length; ++i) {
       csv.push(this.csv_students[csv_student[i]]);
     }
+    this.ready_import = 1;
     new Angular5Csv(csv, this.class_data.name);
+  }
+
+  fileChangeEvent(input) {
+    // console.log(this.exams);
+    if (input.target.files && input.target.files[0] && this.ready_import) {
+      let file = input.target.files[0],
+          reader = new FileReader(),
+          upload_csv = [];
+
+      reader.readAsText(file);
+      reader.onload = (event: any) => { //function(event :any) {
+        let csv = event.target.result,
+        allTextLines = csv.split(/\r\n|\n/),
+        first_line,
+        subjects = [],
+        total_subjects = 0;
+        for (let i = 0; i < allTextLines.length; i++) {
+          let data = allTextLines[i].split(',');
+          for (let j = 0; j < data.length; j++) {
+            if (data[j].includes(`"`)) {
+              data[j] = data[j].substring(1, data[j].length-1);
+            }
+          }
+          if (i == 0) {
+            first_line = data;
+            continue;
+          }
+          if (data.length > 0) {
+            upload_csv.push(data);
+          }
+        }
+
+        total_subjects = first_line.length -2;
+        for (let s = 0; s < total_subjects; s++) {
+          subjects.push(first_line[s + 2]);
+        }
+
+        for (let c = 0; c < upload_csv.length; c++) {
+          let customid = 0,
+          student = this.students.filter(obj => {
+            return obj.customID === upload_csv[c][customid];
+          })[0];
+          if (typeof student === 'undefined') {
+            continue;
+          }
+
+          for (let s = 0; s < subjects.length; s++) {
+            let exam = this.exams.filter(obj => {
+              return obj.name === subjects[s];
+            })[0];
+
+            let paper = this.papers.filter(obj => {
+              return obj.examId === exam.id &&
+                obj.studentId == student.id;
+            });
+
+            if (paper.length > 0) {
+              // UPDATE PAPER SCORE
+              let paper_id = paper[0].id;
+              
+              let temp_paper = paper[0];
+              delete temp_paper.id;
+              temp_paper.score = parseInt(upload_csv[c][s + 2]);
+              
+              this.paperService.update(paper_id, temp_paper);
+              // console.log(paper);
+            }
+          }
+        }
+        alert("Successfully updated students scores");
+      };
+    }
   }
 
   ngOnDestroy() {

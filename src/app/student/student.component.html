@@ -5,6 +5,9 @@
       <h1 class="header-title">Students List</h1>
       <button mdbBtn type="button" color="primary" class="waves-light header-button" size="md" mdbWavesEffect (click)="showStudentCreate()">Add Student</button>
       <button mdbBtn type="button" color="primary" class="waves-light header-button" size="md" mdbWavesEffect (click)="export_all_student()" style="right: 145px;">Export CSV</button>
+      <button mdbBtn type="button" color="primary" [class]="((ready_import <= 0) ? 'disabled' : '' )+ ' waves-light header-button btn btn-primary btn-md'" size="md" mdbWavesEffect (click)="file.click()" style="right: 285px;">Import Students CSV</button>
+      <input type="file" accept=".csv" #file class="d-none" (change)="import_students($event)">
+			
     </div>
     <table class="table" small="true">
       <thead>

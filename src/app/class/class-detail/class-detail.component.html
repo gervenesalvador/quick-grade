@@ -4,6 +4,8 @@
 		<div class="header mt-3 mb-3">
 			<h1 class="font-weight-bold">Class / {{ class_data.name }}</h1>
 			<button type="button" [class]="((ready_export <= 0) ? 'disabled' : '' )+ ' waves-light header-button btn btn-primary'" size="md" mdbWavesEffect (click)="export_all_student()">Export Students CSV</button>
+			<input type="file" accept=".csv" #file class="d-none" (change)="fileChangeEvent($event)">
+			<button type="button" [class]="((ready_import <= 0) ? 'disabled' : '' )+ ' waves-light header-button btn btn-primary'" size="md" mdbWavesEffect (click)="file.click()" style="right: 225px;">Import Students CSV</button>
 		</div>
 		<h3 class="mb-0 font-weight-bold">Student Lists</h3>
 		<table class="table" small="true">
